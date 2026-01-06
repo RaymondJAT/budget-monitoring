@@ -1,14 +1,25 @@
-import { FiCreditCard, FiMail, FiUser, FiUsers } from 'react-icons/fi'
+import { FiCreditCard, FiMail, FiUser, FiUsers, FiCheckSquare } from 'react-icons/fi'
+import { PiSealWarningBold } from 'react-icons/pi'
 
 const HoverDevCards = () => {
   return (
     <div className="p-4">
       {/* <p className="text-xl font-semibold mb-2">Settings</p> */}
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4">
-        <Card title="Pending Requests" subtitle="Manage profile" href="#" Icon={FiUser} />
-        <Card title="Released Vouchers" subtitle="Manage email" href="#" Icon={FiMail} />
-        <Card title="Verified Liquidations" subtitle="Manage team" href="#" Icon={FiUsers} />
-        <Card title="Outstanding Balance" subtitle="Manage cards" href="#" Icon={FiCreditCard} />
+        <Card
+          title="Pending Requests"
+          subtitle="Manage Requests"
+          href="#"
+          Icon={PiSealWarningBold}
+        />
+        <Card title="Released Vouchers" subtitle="Manage Vouchers" href="#" Icon={FiCheckSquare} />
+        <Card
+          title="Verified Liquidations"
+          subtitle="Manage Liquidations"
+          href="#"
+          Icon={FiUsers}
+        />
+        <Card title="Outstanding Balance" subtitle="Manage Balance" href="#" Icon={FiCreditCard} />
       </div>
     </div>
   )
