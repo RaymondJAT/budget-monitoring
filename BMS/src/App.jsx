@@ -1,7 +1,9 @@
+import { Example } from './components/SideBar'
+
 function App() {
   return (
     <>
-      <div>Hello</div>
+      <Example />
     </>
   )
 }
