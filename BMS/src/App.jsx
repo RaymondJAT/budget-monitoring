@@ -2,7 +2,6 @@ import { useState } from 'react'
 import Sidebar from './components/SideBar'
 import Header from './components/Header'
 import { motion } from 'framer-motion'
-import HoverDevCards from './components/Cards'
 import Cards from './components/Cards'
 
 function App() {
@@ -27,15 +26,15 @@ function App() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-6"
+            className="pt-6"
           >
             <Cards />
-            <div className="mb-8">
+            {/* <div className="mb-8 pt-2">
               <h1 className="text-2xl font-bold text-gray-800">Dashboard Overview</h1>
               <p className="text-gray-600 mt-2">
                 Welcome back! Here's what's happening with your budget today.
               </p>
-            </div>
+            </div> */}
           </motion.div>
         </div>
       </motion.div>

@@ -18,7 +18,7 @@ const Sidebar = ({ open, setOpen }) => {
 
   return (
     <motion.nav
-      className="sticky top-0 h-screen shrink-0 border-r border-slate-300 bg-white p-2 flex flex-col"
+      className="sticky top-0 h-screen shrink-0 border-r border-slate-400 bg-white p-2 flex flex-col"
       initial={false}
       animate={{ width: open ? 225 : 56 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
@@ -149,7 +149,7 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -10 }}
           transition={{ duration: 0.2 }}
-          className="text-xs font-medium whitespace-nowrap"
+          className="text-sm font-medium whitespace-nowrap"
         >
           {title}
         </motion.span>
@@ -199,7 +199,7 @@ const DropdownOption = ({
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -10 }}
                 transition={{ duration: 0.2 }}
-                className="text-xs font-medium flex-1 text-left whitespace-nowrap"
+                className="text-sm font-medium flex-1 text-left whitespace-nowrap"
               >
                 {title}
               </motion.span>
@@ -254,7 +254,7 @@ const DropdownItem = ({ label, href, notifs, selected, setSelected }) => {
   return (
     <button
       onClick={() => setSelected(label)}
-      className={`relative flex h-8 w-full items-center rounded-md transition-colors cursor-pointer text-xs ${
+      className={`relative flex h-8 w-full items-center rounded-md transition-colors cursor-pointer text-sm ${
         isSelected ? 'bg-rose-50 text-rose-700 font-medium' : 'hover:bg-rose-50 text-slate-600'
       }`}
     >

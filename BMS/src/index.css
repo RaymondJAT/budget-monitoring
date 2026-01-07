@@ -1,25 +1,19 @@
 @import 'tailwindcss';
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
+@utility container {
+  margin-inline: auto;
+  padding-inline: 1rem;
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* Smooth transitions */
-* {
-  transition: background-color 0.2s ease;
+  @media (width >= theme(--breakpoint-sm)) {
+    padding-inline: 2rem;
+  }
+  @media (width >= theme(--breakpoint-lg)) {
+    padding-inline: 4rem;
+  }
+  @media (width >= theme(--breakpoint-xl)) {
+    padding-inline: 5rem;
+  }
+  @media (width >= theme(--breakpoint-2xl)) {
+    padding-inline: 10rem;
+  }
 }

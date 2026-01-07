@@ -13,33 +13,46 @@ const Header = () => {
   ]
 
   return (
-    <header className="sticky top-0 z-30 bg-white border border-slate-300">
+    <header className="sticky top-0 z-30 bg-white border border-slate-400">
+      {/* Top Section */}
       <div className="flex items-center justify-between px-6 py-4">
-        {/* Left Section */}
-        <div className="flex items-center space-x-4">
-          <div className="relative">
+        {/* Left Section - Dashboard Overview */}
+        <div className="flex-1">
+          <div className="mb-2">
+            <h1 className="text-2xl font-bold text-gray-800">Dashboard Overview</h1>
+            <p className="text-gray-600">
+              Welcome back! Here's what's happening with your budget today.
+            </p>
+          </div>
+        </div>
+
+        {/* Center Section - Search Bar */}
+        <div className="flex-1 flex justify-center">
+          <div className="relative w-full max-w-md">
             <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
             <input
               type="text"
               placeholder="Search cash requests, users, stores..."
-              className="pl-10 pr-4 py-2 w-64 md:w-96 border rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+              className="pl-10 pr-4 py-1 w-3/4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
             />
           </div>
         </div>
 
-        {/* Right Section */}
-        <div className="flex items-center space-x-4">
+        {/* Right Section - Icons and User Profile */}
+        <div className="flex-1 flex justify-end items-center space-x-4">
+          {/* Calendar Icon */}
+          <button
+            onClick={() => setShowNotifications(!showNotifications)}
+            className="relative p-2 hover:bg-rose-100 rounded-lg transition-colors cursor-pointer"
+          >
+            <FiCalendar size={20} />
+          </button>
+
           {/* Notifications */}
           <div className="relative">
             <button
               onClick={() => setShowNotifications(!showNotifications)}
-              className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
-            >
-              <FiCalendar size={20} />
-            </button>
-            <button
-              onClick={() => setShowNotifications(!showNotifications)}
-              className="relative p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
+              className="relative p-2 hover:bg-rose-100 rounded-lg transition-colors cursor-pointer"
             >
               <FiBell size={20} />
               <span className="absolute -top-1 -right-1 w-5 h-5 bg-rose-600 text-white text-xs rounded-full flex items-center justify-center">
@@ -83,9 +96,9 @@ const Header = () => {
           <div className="relative">
             <button
               onClick={() => setShowUserMenu(!showUserMenu)}
-              className="flex items-center space-x-3 p-2 hover:bg-gray-100 rounded-lg transition-colors"
+              className="flex items-center space-x-3 p-2 hover:bg-rose-100 rounded-lg transition-colors cursor-pointer"
             >
-              <div className="w-8 h-8 rounded-full bg-linear-to-r from-rose-500 to-pink-500"></div>
+              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-rose-500 to-pink-500"></div>
               <div className="text-left">
                 <p className="text-sm font-semibold">John Doe</p>
                 <p className="text-xs text-gray-500">Admin</p>
@@ -105,7 +118,7 @@ const Header = () => {
                     <p className="font-semibold">John Doe</p>
                   </div>
                   <div className="p-2">
-                    <button className="w-full text-left px-4 py-2 text-rose-600 hover:bg-rose-50 rounded transition-colors">
+                    <button className="w-full text-left px-4 py-2 text-rose-600 hover:bg-rose-50 rounded transition-colors cursor-pointer">
                       Logout
                     </button>
                   </div>
