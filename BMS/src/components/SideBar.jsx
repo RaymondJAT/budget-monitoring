@@ -1,34 +1,12 @@
 import { useState } from 'react'
-import {
-  FiChevronsRight,
-  FiTag,
-  FiUsers,
-  FiSettings,
-  FiFileText,
-  FiChevronDown,
-  FiChevronRight,
-  FiHome,
-  FiMonitor,
-  FiShoppingCart,
-  FiBarChart,
-} from 'react-icons/fi'
-import { LuPhilippinePeso, LuLayoutDashboard } from 'react-icons/lu'
+import { FiChevronsRight, FiChevronRight } from 'react-icons/fi'
+import { LuLayoutDashboard, LuPhilippinePeso } from 'react-icons/lu'
 import { BiPieChartAlt2 } from 'react-icons/bi'
 import { TbMoneybag } from 'react-icons/tb'
 import { motion, AnimatePresence } from 'framer-motion'
-import Card from './Cards'
+import { FiUsers, FiSettings, FiFileText } from 'react-icons/fi'
 
-export const Example = () => {
-  return (
-    <div className="flex bg-slate-100">
-      <Sidebar />
-      <ExampleContent />
-    </div>
-  )
-}
-
-const Sidebar = () => {
-  const [open, setOpen] = useState(true)
+const Sidebar = ({ open, setOpen }) => {
   const [selected, setSelected] = useState('Dashboard')
   const [expandedItems, setExpandedItems] = useState([])
 
@@ -40,15 +18,19 @@ const Sidebar = () => {
 
   return (
     <motion.nav
-      layout
-      className="sticky top-0 h-screen shrink-0 border-r border-slate-300 bg-white p-2"
+      className="sticky top-0 h-screen shrink-0 border-r border-slate-300 bg-white p-2 flex flex-col"
+      initial={false}
+      animate={{ width: open ? 225 : 56 }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
       style={{
-        width: open ? '225px' : 'fit-content',
+        position: 'fixed',
+        left: 0,
+        zIndex: 40,
       }}
     >
       <TitleSection open={open} />
 
-      <div className="space-y-1 overflow-y-auto max-h-[calc(100vh-120px)]">
+      <div className="flex-1 space-y-1 overflow-y-auto overflow-x-hidden">
         <Option
           Icon={LuLayoutDashboard}
           title="Dashboard"
@@ -152,23 +134,22 @@ const Sidebar = () => {
 
 const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
   return (
-    <motion.button
-      layout
+    <button
       onClick={() => setSelected(title)}
       className={`relative flex h-10 w-full items-center rounded-md transition-colors cursor-pointer ${
         selected === title ? 'bg-rose-100 text-rose-800' : 'hover:bg-rose-100'
       }`}
     >
-      <motion.div layout className="grid h-full w-10 place-content-center text-lg">
+      <div className="grid h-full w-10 place-content-center text-lg shrink-0">
         <Icon />
-      </motion.div>
+      </div>
       {open && (
         <motion.span
-          layout
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.125 }}
-          className="text-xs font-medium"
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -10 }}
+          transition={{ duration: 0.2 }}
+          className="text-xs font-medium whitespace-nowrap"
         >
           {title}
         </motion.span>
@@ -177,18 +158,14 @@ const Option = ({ Icon, title, selected, setSelected, open, notifs }) => {
       {notifs && open && (
         <motion.span
           initial={{ scale: 0, opacity: 0 }}
-          animate={{
-            opacity: 1,
-            scale: 1,
-          }}
-          style={{ y: '-50%' }}
-          transition={{ delay: 0.5 }}
-          className="absolute right-2 top-1/2 size-4 rounded bg-rose-800 text-xs text-white flex items-center justify-center"
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.1 }}
+          className="absolute right-2 top-1/2 size-4 rounded bg-rose-800 text-xs text-white flex items-center justify-center -translate-y-1/2"
         >
           {notifs}
         </motion.span>
       )}
-    </motion.button>
+    </button>
   )
 }
 
@@ -204,37 +181,44 @@ const DropdownOption = ({
 }) => {
   return (
     <div className="space-y-1">
-      <motion.button
-        layout
+      <button
         onClick={toggleExpand}
         className={`relative flex h-10 w-full items-center rounded-md transition-colors cursor-pointer hover:bg-rose-100 ${
           selected === title ? 'bg-rose-100 text-rose-800' : ''
         }`}
       >
-        <motion.div layout className="grid h-full w-10 place-content-center text-lg">
-          <Icon />
-        </motion.div>
+        <div className="relative flex items-center w-full">
+          <div className="grid h-full w-10 place-content-center text-lg shrink-0">
+            <Icon />
+          </div>
 
-        {open && (
-          <>
-            <motion.span
-              layout
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.125 }}
-              className="text-xs font-medium flex-1 text-left"
-            >
-              {title}
-            </motion.span>
+          {open && (
+            <>
+              <motion.span
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ duration: 0.2 }}
+                className="text-xs font-medium flex-1 text-left whitespace-nowrap"
+              >
+                {title}
+              </motion.span>
 
-            <motion.div layout className="grid h-full w-6 place-content-center text-xs">
-              <FiChevronRight
-                className={`transition-transform duration-200 ${expanded ? 'rotate-90' : ''}`}
-              />
-            </motion.div>
-          </>
-        )}
-      </motion.button>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="grid h-full w-6 place-content-center text-xs shrink-0"
+              >
+                <FiChevronRight
+                  className={`transition-transform duration-200 ${expanded ? 'rotate-90' : ''}`}
+                />
+              </motion.div>
+            </>
+          )}
+        </div>
+      </button>
 
       <AnimatePresence>
         {open && expanded && (
@@ -245,7 +229,7 @@ const DropdownOption = ({
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-            <div className="ml-10 space-y-1 border-l border-rose-200 pl-2">
+            <div className="ml-2 space-y-1 pl-2">
               {items.map((item) => (
                 <DropdownItem
                   key={item.label}
@@ -268,27 +252,20 @@ const DropdownItem = ({ label, href, notifs, selected, setSelected }) => {
   const isSelected = selected === label
 
   return (
-    <motion.button
-      layout
+    <button
       onClick={() => setSelected(label)}
       className={`relative flex h-8 w-full items-center rounded-md transition-colors cursor-pointer text-xs ${
         isSelected ? 'bg-rose-50 text-rose-700 font-medium' : 'hover:bg-rose-50 text-slate-600'
       }`}
     >
-      <motion.span layout className="pl-2 flex-1 text-left">
-        {label}
-      </motion.span>
+      <span className="pl-8 flex-1 text-left whitespace-nowrap">{label}</span>
 
       {notifs && (
-        <motion.span
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="mr-2 size-4 rounded-full bg-rose-800 text-[10px] text-white flex items-center justify-center"
-        >
+        <span className="mr-2 size-4 rounded-full bg-rose-800 text-[10px] text-white flex items-center justify-center shrink-0">
           {notifs}
-        </motion.span>
+        </span>
       )}
-    </motion.button>
+    </button>
   )
 }
 
@@ -298,17 +275,23 @@ const TitleSection = ({ open }) => {
       <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-rose-100">
         <div className="flex items-center gap-2">
           <Logo />
-          {open && (
-            <motion.div
-              layout
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.125 }}
-            >
-              <span className="block text-xs font-semibold">Budget Monitoring</span>
-              <span className="block text-xs text-slate-500">BMS</span>
-            </motion.div>
-          )}
+          <AnimatePresence mode="wait">
+            {open && (
+              <motion.div
+                key="title-content"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ duration: 0.2 }}
+                className="overflow-hidden"
+              >
+                <span className="block text-xs font-semibold whitespace-nowrap">
+                  Budget Monitoring
+                </span>
+                <span className="block text-xs text-slate-500">BMS</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>
@@ -317,10 +300,7 @@ const TitleSection = ({ open }) => {
 
 const Logo = () => {
   return (
-    <motion.div
-      layout
-      className="grid size-10 shrink-0 place-content-center rounded-md bg-rose-900"
-    >
+    <div className="grid size-10 shrink-0 place-content-center rounded-md bg-rose-900">
       <svg
         width="24"
         height="auto"
@@ -335,41 +315,39 @@ const Logo = () => {
           stopColor="#000000"
         ></path>
       </svg>
-    </motion.div>
+    </div>
   )
 }
 
 const ToggleClose = ({ open, setOpen }) => {
   return (
-    <motion.button
-      layout
+    <button
       onClick={() => setOpen((pv) => !pv)}
-      className="absolute bottom-0 left-0 right-0 border-t border-slate-300 transition-colors hover:bg-rose-50 cursor-pointer"
+      className="border-t border-slate-300 transition-colors hover:bg-rose-50 cursor-pointer bg-white shrink-0"
     >
-      <div className="flex items-center p-2">
-        <motion.div layout className="grid size-10 place-content-center text-lg">
-          <FiChevronsRight className={`transition-transform ${open && 'rotate-180'}`} />
-        </motion.div>
-        {open && (
-          <motion.span
-            layout
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.125 }}
-            className="text-xs font-medium"
-          >
-            Hide
-          </motion.span>
-        )}
+      <div className="flex items-center p-2 hover:bg-rose-50 rounded-md transition-colors">
+        <div className="grid h-10 w-10 place-content-center text-lg shrink-0">
+          <FiChevronsRight
+            className={`transition-transform duration-300 ${open && 'rotate-180'}`}
+          />
+        </div>
+        <AnimatePresence mode="wait">
+          {open && (
+            <motion.span
+              key="hide-text"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              transition={{ duration: 0.2 }}
+              className="text-xs font-medium whitespace-nowrap"
+            >
+              Hide
+            </motion.span>
+          )}
+        </AnimatePresence>
       </div>
-    </motion.button>
+    </button>
   )
 }
 
-const ExampleContent = () => (
-  <div className="h-screen w-full overflow-auto">
-    <div className="min-h-full p-3">
-      <Card />
-    </div>
-  </div>
-)
+export default Sidebar
