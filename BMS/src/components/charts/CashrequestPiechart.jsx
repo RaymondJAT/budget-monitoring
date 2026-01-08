@@ -37,13 +37,23 @@ const CashrequestPiechart = ({ data, sidebarOpen }) => {
 
     const total = processedData.reduce((sum, entry) => sum + entry.value, 0)
 
-    // Calculate responsive values
     const containerWidth = chartRef.current?.clientWidth || 400
-    const containerHeight = chartRef.current?.clientHeight || 250
     const isSmallScreen = containerWidth < 400
     const isVerySmallScreen = containerWidth < 300
 
-    // Make pie chart larger by adjusting radius and positioning
+    // Calculate optimal positions based on container size
+    const pieCenterX = isSmallScreen ? '50%' : '40%' // Move pie to the left on desktop
+    const legendLeft = isSmallScreen ? 'center' : '60%' // Move legend to the right on desktop
+    const legendTop = isSmallScreen ? 'bottom' : 'middle'
+    const legendBottom = isSmallScreen ? '5%' : 'auto'
+
+    // Adjust pie radius based on available space
+    const pieRadius = isVerySmallScreen
+      ? ['35%', '60%']
+      : isSmallScreen
+      ? ['45%', '70%']
+      : ['50%', '75%'] // Smaller radius on desktop to make room for legend
+
     const option = {
       tooltip: {
         trigger: 'item',
@@ -79,37 +89,47 @@ const CashrequestPiechart = ({ data, sidebarOpen }) => {
       legend: {
         type: isSmallScreen ? 'scroll' : 'plain',
         orient: isSmallScreen ? 'horizontal' : 'vertical',
-        left: isSmallScreen ? 'center' : 'right',
-        top: isSmallScreen ? 'bottom' : 'middle',
-        bottom: isSmallScreen ? '5%' : 'auto',
+        left: legendLeft,
+        top: legendTop,
+        bottom: legendBottom,
         align: 'left',
         itemWidth: 12,
         itemHeight: 12,
-        itemGap: isSmallScreen ? 6 : 8,
+        itemGap: isSmallScreen ? 6 : 10,
         textStyle: {
           fontSize: isSmallScreen ? 10 : 11,
           color: '#666',
+          fontWeight: 'normal',
         },
+        // More compact legend on desktop
         formatter: function (name) {
           const item = processedData.find((d) => d.name === name)
           if (!item) return name
           const percent = total ? ((item.value / total) * 100).toFixed(1) : 0
-          // Shorter legend text on very small screens
+          // Even shorter on very small screens
           if (isVerySmallScreen) {
             const shortName = name.split(' ')[0]
             return `${shortName}: ${item.value}`
           }
+          // Compact format for desktop
+          if (!isSmallScreen) {
+            return `${name}: ${item.value}`
+          }
           return `${name}: ${item.value} (${percent}%)`
         },
+        // Add background for better visibility on small screens
+        backgroundColor: isSmallScreen ? 'rgba(255, 255, 255, 0.7)' : 'transparent',
+        borderColor: isSmallScreen ? '#eee' : 'transparent',
+        borderWidth: isSmallScreen ? 1 : 0,
+        borderRadius: isSmallScreen ? 4 : 0,
+        padding: isSmallScreen ? [5, 10] : [0, 0],
       },
       series: [
         {
           name: 'Cash Requests',
           type: 'pie',
-          // Larger radius - increased from ['40%', '70%'] to ['50%', '80%']
-          radius: isVerySmallScreen ? ['40%', '65%'] : ['50%', '80%'],
-          // Adjust center to accommodate larger pie
-          center: isSmallScreen ? ['50%', '48%'] : ['38%', '50%'],
+          radius: pieRadius,
+          center: [pieCenterX, '50%'],
           avoidLabelOverlap: true,
           itemStyle: {
             borderRadius: 4,
@@ -133,11 +153,11 @@ const CashrequestPiechart = ({ data, sidebarOpen }) => {
           emphasis: {
             label: {
               show: true,
-              fontSize: isSmallScreen ? 13 : 15,
+              fontSize: isSmallScreen ? 13 : 14,
               fontWeight: 'bold',
             },
             scale: true,
-            scaleSize: 6, // Slightly larger scale on hover
+            scaleSize: 5,
           },
           data: processedData.map((item) => ({
             name: item.name,

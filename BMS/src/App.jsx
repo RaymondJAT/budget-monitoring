@@ -7,6 +7,7 @@ import CashFlowChart from './components/charts/CashflowChart'
 import CashrequestPiechart from './components/charts/CashrequestPiechart'
 import LiquidationPiechart from './components/charts/LiquidationPiechart'
 import OutstandingBalanceChart from './components/charts/OutstandingBalanceChart'
+import PlatformTable, { budgetColumns, createBudgetData } from './components/PlatformTable'
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
@@ -27,6 +28,9 @@ function App() {
     rejected_liquidations: 3,
   }
 
+  // Create sample budget data
+  const budgetData = createBudgetData('basic', 25)
+
   return (
     <div className="bg-slate-100 h-screen overflow-hidden font-[customFont]">
       {/* Sidebar */}
@@ -43,11 +47,12 @@ function App() {
         <div className="min-h-full max-w-full">
           <Header />
 
-          <div className="pt-6 p-3">
+          <div className="pt-6 p-3 space-y-4">
+            {/* Dashboard Cards */}
             <Cards />
 
             {/* Top Section - 70%/30% layout */}
-            <div className="w-full mb-4">
+            <div className="w-full">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
                 {/* Cash Flow Chart - 70% width */}
                 <div className="lg:col-span-8">
@@ -93,6 +98,24 @@ function App() {
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Budget Monitoring Tables Section */}
+            <div className="space-y-6">
+              {/* Budget Overview Table */}
+              <div className="bg-white rounded-lg shadow">
+                <PlatformTable
+                  columns={budgetColumns.basic}
+                  data={budgetData}
+                  title="Budget Overview"
+                  searchable
+                  sortable
+                  filterable
+                  pagination
+                  pageSize={8}
+                  onRowClick={(row) => console.log('Budget selected:', row)}
+                />
               </div>
             </div>
           </div>
