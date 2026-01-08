@@ -1,40 +1,23 @@
-import { FiBell, FiSearch, FiChevronDown, FiCalendar } from 'react-icons/fi'
+import { FiBell, FiChevronDown, FiCalendar } from 'react-icons/fi'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { notifications } from '../data/notifications'
 
 const Header = () => {
   const [showNotifications, setShowNotifications] = useState(false)
   const [showUserMenu, setShowUserMenu] = useState(false)
 
-  const notifications = [
-    { id: 1, text: 'New cash request submitted', time: '10 min ago' },
-    { id: 2, text: 'Liquidation needs review', time: '25 min ago' },
-    { id: 3, text: 'Budget allocation updated', time: '1 hour ago' },
-  ]
-
   return (
-    <header className="sticky top-0 z-30 bg-white border border-slate-400">
+    <header className="sticky top-0 z-30 bg-white border-r border-b border-slate-400">
       {/* Top Section */}
-      <div className="flex items-center justify-between px-6 py-4">
-        {/* Left Section - Dashboard Overview */}
+      <div className="flex items-center justify-between px-6 py-2">
+        {/* Left Section */}
         <div className="flex-1">
-          <div className="mb-2">
-            <h1 className="text-2xl font-bold text-gray-800">Dashboard Overview</h1>
-            <p className="text-gray-600">
+          <div className="mb-1">
+            <h1 className="text-lg font-bold text-gray-800">Dashboard Overview</h1>
+            <p className="text-sm text-gray-600">
               Welcome back! Here's what's happening with your budget today.
             </p>
-          </div>
-        </div>
-
-        {/* Center Section - Search Bar */}
-        <div className="flex-1 flex justify-center">
-          <div className="relative w-full max-w-md">
-            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search cash requests, users, stores..."
-              className="pl-10 pr-4 py-1 w-3/4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-            />
           </div>
         </div>
 
@@ -98,7 +81,7 @@ const Header = () => {
               onClick={() => setShowUserMenu(!showUserMenu)}
               className="flex items-center space-x-3 p-2 hover:bg-rose-100 rounded-lg transition-colors cursor-pointer"
             >
-              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-rose-500 to-pink-500"></div>
+              <div className="w-8 h-8 rounded-full bg-linear-to-r from-rose-500 to-pink-500"></div>
               <div className="text-left">
                 <p className="text-sm font-semibold">John Doe</p>
                 <p className="text-xs text-gray-500">Admin</p>
@@ -130,13 +113,13 @@ const Header = () => {
       </div>
 
       {/* Breadcrumb */}
-      <div className="px-6 py-2 bg-gray-50 border-t">
+      {/* <div className="px-6 py-2 bg-gray-50 border-t">
         <div className="flex items-center space-x-2 text-sm text-gray-600">
           <span className="hover:text-rose-600 cursor-pointer">Dashboard</span>
           <span>/</span>
           <span className="text-gray-800">Overview</span>
         </div>
-      </div>
+      </div> */}
     </header>
   )
 }

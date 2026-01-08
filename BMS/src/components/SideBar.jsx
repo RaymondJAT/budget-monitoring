@@ -30,7 +30,7 @@ const Sidebar = ({ open, setOpen }) => {
     >
       <TitleSection open={open} />
 
-      <div className="flex-1 space-y-1 overflow-y-auto overflow-x-hidden">
+      <div className="flex-1 space-y-1 overflow-y-auto overflow-x-hidden scrollbar-rose">
         <Option
           Icon={LuLayoutDashboard}
           title="Dashboard"
@@ -254,7 +254,7 @@ const DropdownItem = ({ label, href, notifs, selected, setSelected }) => {
   return (
     <button
       onClick={() => setSelected(label)}
-      className={`relative flex h-8 w-full items-center rounded-md transition-colors cursor-pointer text-sm ${
+      className={`relative flex h-8 w-full items-center rounded-md transition-colors cursor-pointer text-xs ${
         isSelected ? 'bg-rose-50 text-rose-700 font-medium' : 'hover:bg-rose-50 text-slate-600'
       }`}
     >
@@ -275,23 +275,32 @@ const TitleSection = ({ open }) => {
       <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-rose-100">
         <div className="flex items-center gap-2">
           <Logo />
-          <AnimatePresence mode="wait">
-            {open && (
-              <motion.div
-                key="title-content"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -10 }}
-                transition={{ duration: 0.2 }}
-                className="overflow-hidden"
-              >
-                <span className="block text-xs font-semibold whitespace-nowrap">
-                  Budget Monitoring
-                </span>
-                <span className="block text-xs text-slate-500">BMS</span>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div className="overflow-hidden">
+            <AnimatePresence mode="wait">
+              {open ? (
+                <motion.div
+                  key="title-content"
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: 'auto' }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="whitespace-nowrap pt-2"
+                >
+                  <span className="block text-md font-semibold">Budget Monitoring</span>
+                  <span className="block text-xs text-slate-500">BMS</span>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="empty-space"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.1 }}
+                  className="w-0"
+                />
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </div>
@@ -303,7 +312,7 @@ const Logo = () => {
     <div className="grid size-10 shrink-0 place-content-center rounded-md bg-rose-900">
       <svg
         width="24"
-        height="auto"
+        // height="auto"
         viewBox="0 0 50 39"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -321,32 +330,51 @@ const Logo = () => {
 
 const ToggleClose = ({ open, setOpen }) => {
   return (
-    <button
-      onClick={() => setOpen((pv) => !pv)}
-      className="border-t border-slate-300 transition-colors hover:bg-rose-50 cursor-pointer bg-white shrink-0"
-    >
-      <div className="flex items-center p-2 hover:bg-rose-50 rounded-md transition-colors">
-        <div className="grid h-10 w-10 place-content-center text-lg shrink-0">
-          <FiChevronsRight
-            className={`transition-transform duration-300 ${open && 'rotate-180'}`}
-          />
+    <div className="mt-2 border-t border-slate-300">
+      <button
+        onClick={() => setOpen((pv) => !pv)}
+        className="w-full transition-colors hover:bg-rose-50 cursor-pointer bg-white shrink-0"
+      >
+        <div
+          className={`flex items-center p-2 hover:bg-rose-50 rounded-md transition-colors ${
+            open ? 'justify-start' : 'justify-center'
+          }`}
+        >
+          <div className="grid size-10 place-content-center text-lg shrink-0">
+            <FiChevronsRight
+              className={`transition-transform duration-300 ${open && 'rotate-180'}`}
+            />
+          </div>
+
+          {/* Hide text with slide animation */}
+          <div className="overflow-hidden">
+            <AnimatePresence mode="wait">
+              {open ? (
+                <motion.span
+                  key="hide-text"
+                  initial={{ opacity: 0, width: 0 }}
+                  animate={{ opacity: 1, width: 'auto' }}
+                  exit={{ opacity: 0, width: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-sm font-medium whitespace-nowrap"
+                >
+                  Hide
+                </motion.span>
+              ) : (
+                <motion.div
+                  key="empty-space"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.1 }}
+                  className="w-0"
+                />
+              )}
+            </AnimatePresence>
+          </div>
         </div>
-        <AnimatePresence mode="wait">
-          {open && (
-            <motion.span
-              key="hide-text"
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -10 }}
-              transition={{ duration: 0.2 }}
-              className="text-xs font-medium whitespace-nowrap"
-            >
-              Hide
-            </motion.span>
-          )}
-        </AnimatePresence>
-      </div>
-    </button>
+      </button>
+    </div>
   )
 }
 

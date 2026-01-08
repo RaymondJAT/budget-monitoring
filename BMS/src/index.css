@@ -1,5 +1,10 @@
 @import 'tailwindcss';
 
+@font-face {
+  font-family: customFont;
+  src: url(./assets/fonts/Manrope-VariableFont_wght.ttf);
+}
+
 @utility container {
   margin-inline: auto;
   padding-inline: 1rem;
@@ -15,5 +20,30 @@
   }
   @media (width >= theme(--breakpoint-2xl)) {
     padding-inline: 10rem;
+  }
+}
+
+@layer utilities {
+  .scrollbar-rose {
+    scrollbar-width: thin;
+    scrollbar-color: #9f1239 transparent;
+  }
+
+  .scrollbar-rose::-webkit-scrollbar {
+    width: 1px;
+    height: 1px;
+  }
+
+  .scrollbar-rose::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-rose::-webkit-scrollbar-thumb {
+    background-color: #9f1239;
+    border-radius: 9999px;
+  }
+
+  .scrollbar-rose::-webkit-scrollbar-button {
+    display: none;
   }
 }

@@ -2,7 +2,7 @@ import { cardData } from '../data/cardData'
 
 const Cards = () => {
   return (
-    <div className="-mt-2 w-full">
+    <div className="-mt-2 w-full mb-4">
       {/* Added w-full */}
       <div className="grid gap-4 grid-cols-2 lg:grid-cols-4 w-full">
         {/* Added w-full to grid */}

@@ -1,5 +1,6 @@
 import { FiCreditCard, FiUsers, FiCheckSquare } from 'react-icons/fi'
 import { PiSealWarningBold } from 'react-icons/pi'
+import { IoReceiptOutline } from 'react-icons/io5'
 
 export const cardData = [
   {
@@ -24,7 +25,7 @@ export const cardData = [
     title: 'Verified Liquidations',
     count: '8',
     total: '15',
-    Icon: FiUsers,
+    Icon: IoReceiptOutline,
     href: '#',
     color: 'rose',
     isCurrency: false,
