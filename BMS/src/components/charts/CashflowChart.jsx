@@ -89,7 +89,7 @@ const CashFlowChart = ({ startDate, endDate, sidebarOpen }) => {
 
     const option = {
       tooltip: {
-        trigger: 'item', // Changed from 'axis' to 'item' for individual tooltips
+        trigger: 'item',
         axisPointer: {
           type: 'shadow',
         },
@@ -328,7 +328,7 @@ const CashFlowChart = ({ startDate, endDate, sidebarOpen }) => {
             color: '#2464c9',
           },
           emphasis: {
-            focus: 'self', // Focus on self for individual tooltips
+            focus: 'self',
           },
           data: data.map((item) => item.cashLiquidated),
         },
@@ -414,18 +414,16 @@ const CashFlowChart = ({ startDate, endDate, sidebarOpen }) => {
     return cleanup
   }, [initChart])
 
-  // Handle sidebar toggle - reinitialize chart with new dimensions
+  // Handle sidebar toggle - only resize, don't reinitialize
   useEffect(() => {
     const timer = setTimeout(() => {
       if (chartInstance.current) {
         chartInstance.current.resize()
-        // Reapply options to adjust responsive settings
-        initChart()
       }
     }, 150)
 
     return () => clearTimeout(timer)
-  }, [sidebarOpen, initChart])
+  }, [sidebarOpen]) // Remove initChart from dependencies
 
   useEffect(() => {
     // Use generated mock data
@@ -491,7 +489,7 @@ const CashFlowChart = ({ startDate, endDate, sidebarOpen }) => {
           style={{
             width: '100%',
             height: '100%',
-            minHeight: '300px',
+            minHeight: '200px',
             transition: 'all 0.3s ease',
           }}
         />

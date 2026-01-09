@@ -228,17 +228,16 @@ const CashrequestPiechart = ({ data, sidebarOpen }) => {
     return cleanup
   }, [initChart])
 
-  // Handle sidebar toggle
+  // Handle sidebar toggle - FIXED: Only resize, don't reinitialize
   useEffect(() => {
     const timer = setTimeout(() => {
       if (chartInstance.current) {
         chartInstance.current.resize()
-        initChart()
       }
     }, 150)
 
     return () => clearTimeout(timer)
-  }, [sidebarOpen, initChart])
+  }, [sidebarOpen]) // Removed initChart from dependencies
 
   // Cleanup on unmount
   useEffect(() => {
@@ -268,7 +267,7 @@ const CashrequestPiechart = ({ data, sidebarOpen }) => {
         style={{
           width: '100%',
           height: '280px',
-          minHeight: '280px',
+          minHeight: '250px',
           transition: 'all 0.3s ease',
         }}
       />

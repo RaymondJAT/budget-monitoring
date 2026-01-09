@@ -382,7 +382,7 @@ const OutstandingBalanceChart = ({ startDate, endDate }) => {
           style={{
             width: '100%',
             height: '100%',
-            minHeight: '300px',
+            minHeight: '200px',
             transition: 'all 0.3s ease',
           }}
         />

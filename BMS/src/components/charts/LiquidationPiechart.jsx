@@ -269,7 +269,7 @@ const LiquidationPiechart = ({ data, sidebarOpen }) => {
         style={{
           width: '100%',
           height: '280px',
-          minHeight: '280px',
+          minHeight: '250px',
           transition: 'all 0.3s ease',
         }}
       />
