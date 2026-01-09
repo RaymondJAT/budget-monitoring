@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Sidebar from './components/SideBar'
@@ -15,32 +16,40 @@ function App() {
   }
 
   return (
-    <div className="bg-slate-200 h-screen overflow-hidden font-[customFont]">
-      {/* Sidebar */}
-      <Sidebar open={isSidebarOpen} setOpen={setIsSidebarOpen} />
+    <Router>
+      <div className="bg-slate-200 h-screen overflow-hidden font-mono">
+        {/* Sidebar */}
+        <Sidebar open={isSidebarOpen} setOpen={setIsSidebarOpen} />
 
-      {/* Main content */}
-      <motion.div
-        className="h-screen overflow-auto"
-        animate={{
-          marginLeft: isSidebarOpen ? 225 : 56,
-        }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
-      >
-        <div className="min-h-full max-w-full">
-          <Header />
+        {/* Main content */}
+        <motion.div
+          className="h-screen overflow-auto"
+          animate={{
+            marginLeft: isSidebarOpen ? 225 : 56,
+          }}
+          transition={{ duration: 0.3, ease: 'easeInOut' }}
+        >
+          <div className="min-h-full max-w-full">
+            <Header />
 
-          {/* Dashboard Component */}
-          <Dashboard
-            sortKey={sortKey}
-            setSortKey={setSortKey}
-            sortDirection={sortDirection}
-            setSortDirection={setSortDirection}
-            handleSort={handleSort}
-          />
-        </div>
-      </motion.div>
-    </div>
+            <Routes>
+              <Route
+                path="/dashboard"
+                element={
+                  <Dashboard
+                    sortKey={sortKey}
+                    setSortKey={setSortKey}
+                    sortDirection={sortDirection}
+                    setSortDirection={setSortDirection}
+                    handleSort={handleSort}
+                  />
+                }
+              />
+            </Routes>
+          </div>
+        </motion.div>
+      </div>
+    </Router>
   )
 }
 
