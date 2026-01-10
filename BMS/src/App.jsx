@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import Sidebar from './components/SideBar'
-import Header from './components/Header'
-import Dashboard from './pages/Dashboard'
+import Sidebar from './components/layout/SideBar'
+import Header from './components/layout/Header'
+import Dashboard from './pages/common/Dashboard'
+import Users from './pages/admin/Users'
+import Access from './pages/admin/Access'
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
@@ -34,7 +36,7 @@ function App() {
 
             <Routes>
               <Route
-                path="/dashboard"
+                path="/"
                 element={
                   <Dashboard
                     sortKey={sortKey}
@@ -45,6 +47,9 @@ function App() {
                   />
                 }
               />
+
+              <Route path="/users" element={<Users />} />
+              <Route path="/access" element={<Access />} />
             </Routes>
           </div>
         </motion.div>

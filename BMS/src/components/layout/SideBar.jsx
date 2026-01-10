@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { FiChevronsRight, FiChevronRight } from 'react-icons/fi'
-import { sidebarOptions } from '../data/sidebarConfig'
+import { sidebarOptions } from '../../data/sidebarConfig'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const Sidebar = ({ open, setOpen }) => {
@@ -12,6 +12,11 @@ const Sidebar = ({ open, setOpen }) => {
     setExpandedItems((prev) =>
       prev.includes(title) ? prev.filter((item) => item !== title) : [...prev, title]
     )
+  }
+
+  // Function to check if a path is active
+  const isPathActive = (path) => {
+    return window.location.pathname === path
   }
 
   return (
@@ -75,12 +80,13 @@ const Sidebar = ({ open, setOpen }) => {
             return (
               <NavLink
                 key={option.title}
-                to={option.path} // <-- use path from your sidebarOptions
+                to={option.path}
                 className={({ isActive }) =>
                   `relative flex h-10 w-full items-center rounded-md transition-colors ${
                     isActive ? 'bg-rose-100 text-rose-800' : 'hover:bg-rose-100'
                   }`
                 }
+                onClick={() => setSelected(option.title)}
               >
                 <div className="grid h-full w-10 place-content-center text-lg shrink-0">
                   <option.Icon />
@@ -105,7 +111,9 @@ const Sidebar = ({ open, setOpen }) => {
               <button
                 onClick={() => toggleExpand(option.title)}
                 className={`relative flex h-10 w-full items-center rounded-md transition-colors cursor-pointer hover:bg-rose-100 ${
-                  selected === option.title ? 'bg-rose-100 text-rose-800' : ''
+                  isPathActive(option.items.some((item) => isPathActive(item.path)))
+                    ? 'bg-rose-100 text-rose-800'
+                    : ''
                 }`}
               >
                 <div className="relative flex items-center w-full">
@@ -153,29 +161,29 @@ const Sidebar = ({ open, setOpen }) => {
                     className="overflow-hidden"
                   >
                     <div className="ml-2 space-y-1 pl-2">
-                      {option.items.map((item) => {
-                        const isSelected = selected === item.label
-                        return (
-                          <button
-                            key={item.label}
-                            onClick={() => setSelected(item.label)}
-                            className={`relative flex h-8 w-full items-center rounded-md transition-colors cursor-pointer text-xs ${
-                              isSelected
+                      {option.items.map((item) => (
+                        <NavLink
+                          key={item.label}
+                          to={item.path}
+                          className={({ isActive }) =>
+                            `relative flex h-8 w-full items-center rounded-md transition-colors text-xs ${
+                              isActive
                                 ? 'bg-rose-50 text-rose-700 font-medium'
                                 : 'hover:bg-rose-50 text-slate-600'
-                            }`}
-                          >
-                            <span className="pl-8 flex-1 text-left whitespace-nowrap">
-                              {item.label}
+                            }`
+                          }
+                          onClick={() => setSelected(item.label)}
+                        >
+                          <span className="pl-8 flex-1 text-left whitespace-nowrap">
+                            {item.label}
+                          </span>
+                          {item.notifs && (
+                            <span className="mr-2 size-4 rounded-full bg-rose-800 text-[10px] text-white flex items-center justify-center shrink-0">
+                              {item.notifs}
                             </span>
-                            {item.notifs && (
-                              <span className="mr-2 size-4 rounded-full bg-rose-800 text-[10px] text-white flex items-center justify-center shrink-0">
-                                {item.notifs}
-                              </span>
-                            )}
-                          </button>
-                        )
-                      })}
+                          )}
+                        </NavLink>
+                      ))}
                     </div>
                   </motion.div>
                 )}

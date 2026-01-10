@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
-import Cards from '../components/Cards'
-import CashFlowChart from '../components/charts/CashflowChart'
-import CashrequestPiechart from '../components/charts/CashrequestPiechart'
-import LiquidationPiechart from '../components/charts/LiquidationPiechart'
-import OutstandingBalanceChart from '../components/charts/OutstandingBalanceChart'
-import PlatformTable, { budgetColumns, createBudgetData } from '../components/PlatformTable'
+import Cards from '../../components/Cards'
+import CashFlowChart from '../../components/charts/CashflowChart'
+import CashrequestPiechart from '../../components/charts/CashrequestPiechart'
+import LiquidationPiechart from '../../components/charts/LiquidationPiechart'
+import OutstandingBalanceChart from '../../components/charts/OutstandingBalanceChart'
+import PlatformTable, { budgetColumns, createBudgetData } from '../../components/PlatformTable'
 
 const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
   const budgets = useMemo(() => createBudgetData(8), [])
@@ -90,7 +90,7 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
 
       {/* Budget Monitoring Table Section */}
       <div className="space-y-6">
-        <div className="bg-component shadow-lg rounded-sm border border-slate-400 p-4">
+        <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-4">
           <PlatformTable
             columns={budgetColumns}
             data={sortedBudgets}
@@ -107,7 +107,7 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
       </div>
 
       <div className="space-y-6">
-        <div className="bg-component shadow-lg rounded-sm border border-slate-400 p-4">
+        <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-4">
           <PlatformTable
             columns={budgetColumns}
             data={sortedBudgets}
@@ -124,7 +124,7 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
       </div>
 
       <div className="space-y-6">
-        <div className="bg-component shadow-lg rounded-sm border border-slate-400 p-4">
+        <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-4">
           <PlatformTable
             columns={budgetColumns}
             data={sortedBudgets}

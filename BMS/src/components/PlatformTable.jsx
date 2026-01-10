@@ -1,7 +1,6 @@
 import { FiChevronUp, FiChevronDown } from 'react-icons/fi'
 import ActionButtons from './buttons/ActionButtons'
 
-// budget table columns
 export const budgetColumns = [
   {
     key: 'department',
@@ -76,7 +75,6 @@ export const createBudgetData = (count = 6) => {
   })
 }
 
-// table component
 const PlatformTable = ({
   columns,
   data,
@@ -90,13 +88,56 @@ const PlatformTable = ({
   actionButtonProps = {},
   title = null,
   titleAlignment = 'left',
+  containerClassName = '',
+  tableClassName = '',
+  responsive = true,
+  showActions = true,
 }) => {
+  const shouldUseInlineStyle = () => {
+    if (typeof maxHeight === 'string') {
+      if (maxHeight.startsWith('h-')) {
+        return false
+      }
+      if (
+        containerClassName.includes('h-') ||
+        containerClassName.includes('max-h-') ||
+        containerClassName.includes('height:')
+      ) {
+        return false
+      }
+      return true
+    }
+    return typeof maxHeight === 'number'
+  }
+
+  // Parse maxHeight value for inline style
+  const getHeightStyle = () => {
+    if (!shouldUseInlineStyle()) return {}
+
+    if (typeof maxHeight === 'string') {
+      return { maxHeight }
+    }
+
+    if (typeof maxHeight === 'number') {
+      return { maxHeight: `${maxHeight}px` }
+    }
+
+    return { maxHeight: '400px' }
+  }
+
+  const hasHeightClass = typeof maxHeight === 'string' && maxHeight.startsWith('h-')
+
   return (
-    <div className="rounded-sm border shadow-lg border-gray-200 bg-white overflow-hidden">
+    <div
+      className={`rounded-sm border shadow-lg border-gray-200 bg-white overflow-hidden ${
+        hasHeightClass ? maxHeight : ''
+      } ${containerClassName}`}
+      style={shouldUseInlineStyle() ? getHeightStyle() : {}}
+    >
       {/* Title Section */}
       {title && (
         <div
-          className={`px-3 py-3  bg-component
+          className={`px-3 py-3 bg-component
           ${
             titleAlignment === 'center'
               ? 'text-center'
@@ -110,24 +151,44 @@ const PlatformTable = ({
         </div>
       )}
 
-      {/* Table Section */}
-      <div className="overflow-auto" style={{ maxHeight }}>
-        <table className="w-full text-sm table-fixed">
+      {/* Table Container */}
+      <div
+        className={`overflow-auto min-h-0 ${
+          hasHeightClass || containerClassName.includes('h-') ? 'h-full' : ''
+        }`}
+      >
+        <table
+          className={`w-full text-sm ${
+            responsive ? 'table-auto' : 'table-fixed'
+          } ${tableClassName}`}
+        >
           <thead className="bg-gray-300 sticky top-0 z-10">
             <tr>
               {columns.map((col) => (
                 <th
                   key={col.key}
                   onClick={() => col.sortable && onSort(col.key)}
-                  className={`px-4 py-3 font-semibold uppercase
+                  className={`px-4 py-3 font-semibold uppercase whitespace-nowrap
                     ${col.sortable ? 'cursor-pointer hover:text-gray-900' : ''}
-                    ${col.align === 'center' ? 'text-center' : 'text-left'}
+                    ${
+                      col.align === 'center'
+                        ? 'text-center'
+                        : col.align === 'right'
+                        ? 'text-right'
+                        : 'text-left'
+                    }
                   `}
-                  style={{ width: col.width }}
+                  style={!responsive ? { width: col.width } : {}}
                 >
                   <div
                     className={`flex items-center gap-1
-                      ${col.align === 'center' ? 'justify-center' : 'justify-start'}
+                      ${
+                        col.align === 'center'
+                          ? 'justify-center'
+                          : col.align === 'right'
+                          ? 'justify-end'
+                          : 'justify-start'
+                      }
                     `}
                   >
                     {col.label}
@@ -136,12 +197,14 @@ const PlatformTable = ({
                   </div>
                 </th>
               ))}
-              <th
-                className="px-4 py-3 text-center font-semibold uppercase"
-                style={{ width: '15%' }}
-              >
-                Actions
-              </th>
+              {showActions && (
+                <th
+                  className="px-4 py-3 text-center font-semibold uppercase whitespace-nowrap"
+                  style={!responsive ? { width: '15%' } : {}}
+                >
+                  Actions
+                </th>
+              )}
             </tr>
           </thead>
 
@@ -152,22 +215,30 @@ const PlatformTable = ({
                   <td
                     key={col.key}
                     className={`px-4 py-3
-                      ${col.align === 'center' ? 'text-center' : 'text-left'}
+                      ${
+                        col.align === 'center'
+                          ? 'text-center'
+                          : col.align === 'right'
+                          ? 'text-right'
+                          : 'text-left'
+                      }
                     `}
-                    style={{ width: col.width }}
+                    style={!responsive ? { width: col.width } : {}}
                   >
                     {col.render ? col.render(row[col.key], row) : row[col.key]}
                   </td>
                 ))}
-                <td className="px-4 py-3 text-center" style={{ width: '15%' }}>
-                  <ActionButtons
-                    row={row}
-                    onView={onView}
-                    onEdit={onEdit}
-                    onDelete={onDelete}
-                    {...actionButtonProps}
-                  />
-                </td>
+                {showActions && (
+                  <td className="px-4 py-3 text-center" style={!responsive ? { width: '15%' } : {}}>
+                    <ActionButtons
+                      row={row}
+                      onView={onView}
+                      onEdit={onEdit}
+                      onDelete={onDelete}
+                      {...actionButtonProps}
+                    />
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>

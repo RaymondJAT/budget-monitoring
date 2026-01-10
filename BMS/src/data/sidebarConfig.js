@@ -4,14 +4,14 @@ import { BiPieChartAlt2 } from 'react-icons/bi'
 import { TbMoneybag } from 'react-icons/tb'
 
 export const sidebarOptions = [
-  { type: 'single', title: 'Dashboard', Icon: LuLayoutDashboard, path: '/dashboard' },
+  { type: 'single', title: 'Dashboard', Icon: LuLayoutDashboard, path: '/' },
   {
     type: 'dropdown',
     title: 'User Management',
     Icon: FiUsers,
     items: [
-      { label: 'Users', href: '/users' },
-      { label: 'Access', href: '/users/access' },
+      { label: 'Users', path: '/users' },
+      { label: 'Access', path: '/access' },
     ],
   },
   {
@@ -19,11 +19,11 @@ export const sidebarOptions = [
     title: 'Operations',
     Icon: FiSettings,
     items: [
-      { label: 'Stores', href: '/operations/stores' },
-      { label: 'Store Routes', href: '/operations/store-routes' },
-      { label: 'Flag Analysis', href: '/operations/flag-analysis', notifs: 5 },
-      { label: 'Transport', href: '/operations/transport' },
-      { label: 'Particulars', href: '/operations/particulars' },
+      { label: 'Stores', path: '/operations/stores' },
+      { label: 'Store Routes', path: '/operations/store-routes' },
+      { label: 'Flag Analysis', path: '/operations/flag-analysis', notifs: 5 },
+      { label: 'Transport', path: '/operations/transport' },
+      { label: 'Particulars', path: '/operations/particulars' },
     ],
   },
   {
@@ -31,9 +31,9 @@ export const sidebarOptions = [
     title: 'Fund Management',
     Icon: LuPhilippinePeso,
     items: [
-      { label: 'Budget Allocation', href: '/funds/budget' },
-      { label: 'Revolving Fund', href: '/funds/revolving-fund', notifs: 3 },
-      { label: 'Cash Disbursement', href: '/funds/cash-disbursement', notifs: 5 },
+      { label: 'Budget Allocation', path: '/funds/budget' },
+      { label: 'Revolving Fund', path: '/funds/revolving-fund', notifs: 3 },
+      { label: 'Cash Disbursement', path: '/funds/cash-disbursement', notifs: 5 },
     ],
   },
   {
@@ -41,11 +41,11 @@ export const sidebarOptions = [
     title: 'Cash Requests',
     Icon: TbMoneybag,
     items: [
-      { label: 'New Request', href: '/cash/new', notifs: 5 },
-      { label: 'Pending', href: '/cash/pending', notifs: 8 },
-      { label: 'Approved', href: '/cash/approved' },
-      { label: 'Rejected', href: '/cash/rejected' },
-      { label: 'History', href: '/cash/history' },
+      { label: 'New Request', path: '/cash/new', notifs: 5 },
+      { label: 'Pending', path: '/cash/pending', notifs: 8 },
+      { label: 'Approved', path: '/cash/approved' },
+      { label: 'Rejected', path: '/cash/rejected' },
+      { label: 'History', path: '/cash/history' },
     ],
   },
   {
@@ -53,10 +53,10 @@ export const sidebarOptions = [
     title: 'Liquidations',
     Icon: FiFileText,
     items: [
-      { label: 'For Review', href: '/liquidations/review', notifs: 2 },
-      { label: 'Approved', href: '/liquidations/approved' },
-      { label: 'Reimbursements', href: '/liquidations/reimbursements' },
-      { label: 'Archive', href: '/liquidations/archive' },
+      { label: 'For Review', path: '/liquidations/review', notifs: 2 },
+      { label: 'Approved', path: '/liquidations/approved' },
+      { label: 'Reimbursements', path: '/liquidations/reimbursements' },
+      { label: 'Archive', path: '/liquidations/archive' },
     ],
   },
   { type: 'single', title: 'Reporting', Icon: BiPieChartAlt2, path: '/reporting' },
