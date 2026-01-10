@@ -6,6 +6,9 @@ import Header from './components/layout/Header'
 import Dashboard from './pages/common/Dashboard'
 import Users from './pages/admin/Users'
 import Access from './pages/admin/Access'
+import Stores from './pages/admin/Stores'
+import Transport from './pages/admin/Transport'
+import Particulars from './pages/admin/Particulars'
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
@@ -19,7 +22,7 @@ function App() {
 
   return (
     <Router>
-      <div className="h-screen overflow-hidden font-mono bg-linear-to-br from-red-600 via-rose-100 to-red-500">
+      <div className="h-screen overflow-hidden font-mono bg-linear-to-br from-red-800 via-rose-100 to-red-600">
         {/* Sidebar */}
         <Sidebar open={isSidebarOpen} setOpen={setIsSidebarOpen} />
 
@@ -50,6 +53,9 @@ function App() {
 
               <Route path="/users" element={<Users />} />
               <Route path="/access" element={<Access />} />
+              <Route path="/stores" element={<Stores />} />
+              <Route path="/transport" element={<Transport />} />
+              <Route path="/particulars" element={<Particulars />} />
             </Routes>
           </div>
         </motion.div>

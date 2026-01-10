@@ -152,7 +152,6 @@ const Users = () => {
                 <option value="">All Status</option>
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>
-                <option value="Pending">Pending</option>
               </select>
             </div>
 
@@ -185,9 +184,9 @@ const Users = () => {
                 viewLabel: 'View Details',
                 editLabel: 'Edit User',
                 deleteLabel: 'Deactivate',
-                showView: true,
+                showView: false,
                 showEdit: true,
-                showDelete: true,
+                showDelete: false,
               }}
             />
           </div>

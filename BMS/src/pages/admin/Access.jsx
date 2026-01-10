@@ -117,7 +117,6 @@ const Access = () => {
                 <option value="">All Status</option>
                 <option value="Active">Active</option>
                 <option value="Inactive">Inactive</option>
-                <option value="Pending">Pending</option>
               </select>
             </div>
 
@@ -150,7 +149,7 @@ const Access = () => {
                 viewLabel: 'View Details',
                 editLabel: 'Edit Access',
                 deleteLabel: 'Deactivate',
-                showView: true,
+                showView: false,
                 showEdit: true,
                 showDelete: true,
               }}

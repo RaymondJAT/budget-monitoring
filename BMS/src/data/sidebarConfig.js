@@ -16,14 +16,14 @@ export const sidebarOptions = [
   },
   {
     type: 'dropdown',
-    title: 'Operations',
+    title: 'Configuration',
     Icon: FiSettings,
     items: [
-      { label: 'Stores', path: '/operations/stores' },
+      { label: 'Stores', path: 'stores' },
       { label: 'Store Routes', path: '/operations/store-routes' },
       { label: 'Flag Analysis', path: '/operations/flag-analysis', notifs: 5 },
-      { label: 'Transport', path: '/operations/transport' },
-      { label: 'Particulars', path: '/operations/particulars' },
+      { label: 'Transport', path: '/transport' },
+      { label: 'Particulars', path: '/particulars' },
     ],
   },
   {
