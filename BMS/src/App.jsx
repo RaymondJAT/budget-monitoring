@@ -17,7 +17,7 @@ function App() {
 
   return (
     <Router>
-      <div className="bg-slate-200 h-screen overflow-hidden font-mono">
+      <div className="h-screen overflow-hidden font-mono bg-linear-to-br from-red-600 via-rose-100 to-red-500">
         {/* Sidebar */}
         <Sidebar open={isSidebarOpen} setOpen={setIsSidebarOpen} />
 

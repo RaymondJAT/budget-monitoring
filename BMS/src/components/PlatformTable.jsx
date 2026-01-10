@@ -92,11 +92,11 @@ const PlatformTable = ({
   titleAlignment = 'left',
 }) => {
   return (
-    <div className="rounded-sm border border-gray-200 bg-white overflow-hidden">
+    <div className="rounded-sm border shadow-lg border-gray-200 bg-white overflow-hidden">
       {/* Title Section */}
       {title && (
         <div
-          className={`px-3 py-3  bg-white
+          className={`px-3 py-3  bg-component
           ${
             titleAlignment === 'center'
               ? 'text-center'

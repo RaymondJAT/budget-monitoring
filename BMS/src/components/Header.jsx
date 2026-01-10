@@ -8,18 +8,18 @@ const Header = () => {
   const [showUserMenu, setShowUserMenu] = useState(false)
 
   return (
-    <header className="sticky top-0 z-30 bg-white border-r border-b border-slate-400">
+    <header className="sticky top-0 z-30 bg-component border-r border-b border-slate-400">
       {/* Top Section */}
       <div className="flex items-center justify-between px-6 py-2">
         {/* Left Section */}
-        <div className="flex-1">
+        {/* <div className="flex-1">
           <div className="mb-1">
             <h1 className="text-lg font-bold text-gray-800">Dashboard Overview</h1>
             <p className="text-sm text-gray-600">
               Welcome back! Here's what's happening with your budget today.
             </p>
           </div>
-        </div>
+        </div> */}
 
         {/* Right Section - Icons and User Profile */}
         <div className="flex-1 flex justify-end items-center space-x-4">

@@ -61,7 +61,7 @@ const Card = ({ title, count, total, Icon, href, color, isCurrency }) => {
   return (
     <a
       href={href}
-      className="w-full p-4 rounded border border-slate-400 relative overflow-hidden group bg-white hover:shadow-md transition-shadow duration-300"
+      className="w-full p-4 rounded-lg border border-slate-400 relative overflow-hidden group bg-component shadow-xl transition-shadow duration-300"
     >
       <div
         className={`absolute inset-0 bg-linear-to-r ${colors.bg} translate-y-full group-hover:translate-y-[0%] transition-transform duration-300`}

@@ -104,7 +104,7 @@ const CashFlowChart = ({ startDate, endDate }) => {
   }
 
   return (
-    <div className="h-full w-full bg-white rounded-sm border border-slate-400 flex flex-col">
+    <div className="h-full w-full bg-component shadow-xl rounded-lg border border-slate-400 flex flex-col">
       <div className="p-4 shrink-0 text-center">
         <p className="font-bold mb-0">Cash Flow Overview</p>
         {reportDate && <small className="text-gray-500">Reporting Period: {reportDate}</small>}

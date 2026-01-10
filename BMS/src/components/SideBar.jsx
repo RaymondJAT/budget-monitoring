@@ -16,7 +16,7 @@ const Sidebar = ({ open, setOpen }) => {
 
   return (
     <motion.nav
-      className="sticky top-0 h-screen shrink-0 border-r border-slate-400 bg-white p-2 flex flex-col"
+      className="sticky top-0 h-screen shrink-0 border-r border-slate-400 bg-component p-2 flex flex-col"
       initial={false}
       animate={{ width: open ? 225 : 56 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
@@ -189,7 +189,7 @@ const Sidebar = ({ open, setOpen }) => {
       <div className="mt-2 border-t border-slate-300">
         <button
           onClick={() => setOpen((pv) => !pv)}
-          className="w-full transition-colors hover:bg-rose-50 cursor-pointer bg-white shrink-0"
+          className="w-full transition-colors hover:bg-rose-50 cursor-pointer  shrink-0"
         >
           <div
             className={`flex items-center p-2 hover:bg-rose-50 rounded-md transition-colors ${

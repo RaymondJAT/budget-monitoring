@@ -23,6 +23,11 @@
   }
 }
 
+@theme {
+  --color-sample: #ffe5d9;
+  --color-component: #f9f8f4;
+}
+
 @layer utilities {
   .scrollbar-rose {
     scrollbar-width: thin;

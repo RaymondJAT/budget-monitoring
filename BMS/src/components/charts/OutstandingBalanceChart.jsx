@@ -86,7 +86,7 @@ const OutstandingBalance = ({ startDate, endDate }) => {
   }
 
   return (
-    <div className="h-full w-full bg-white rounded-sm border border-slate-400 flex flex-col">
+    <div className="h-full w-full bg-component shadow-xl rounded-lg border border-slate-400 flex flex-col">
       <div className="p-4 shrink-0">
         <div className="text-center mb-3">
           <p className="font-bold mb-0">Revolving Fund Summary</p>

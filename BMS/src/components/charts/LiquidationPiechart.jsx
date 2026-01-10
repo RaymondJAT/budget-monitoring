@@ -45,7 +45,7 @@ const LiquidationPieChart = ({ data }) => {
   const total = processedData.reduce((sum, entry) => sum + entry.value, 0)
 
   return (
-    <div className="h-full w-full bg-white rounded-sm flex flex-col">
+    <div className="h-full w-full bg-component rounded-sm flex flex-col">
       <div className="flex-1 min-h-62.5 px-3 sm:px-4 pb-3 sm:pb-4">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>

@@ -48,7 +48,7 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
 
           {/* Right column with Cash Requests Pie Chart */}
           <div className="lg:col-span-4">
-            <div className="h-full w-full bg-white rounded-sm border border-slate-400 flex flex-col">
+            <div className="h-full w-full bg-component shadow-xl rounded-lg border border-slate-400 flex flex-col">
               <div className="p-3 shrink-0">
                 <div className="text-center">
                   <p className="font-bold text-sm mb-1">Cash Requests</p>
@@ -73,7 +73,7 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
 
           {/* Right */}
           <div className="lg:col-span-4">
-            <div className="h-full w-full bg-white rounded-sm border border-slate-400 flex flex-col">
+            <div className="h-full w-full bg-component shadow-xl rounded-lg border border-slate-400 flex flex-col">
               <div className="p-3 shrink-0">
                 <div className="text-center">
                   <p className="font-bold text-sm mb-1">Liquidations</p>
@@ -90,7 +90,7 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
 
       {/* Budget Monitoring Table Section */}
       <div className="space-y-6">
-        <div className="bg-white rounded-sm border border-slate-400 p-4">
+        <div className="bg-component shadow-lg rounded-sm border border-slate-400 p-4">
           <PlatformTable
             columns={budgetColumns}
             data={sortedBudgets}
@@ -107,7 +107,7 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
       </div>
 
       <div className="space-y-6">
-        <div className="bg-white rounded-sm border border-slate-400 p-4">
+        <div className="bg-component shadow-lg rounded-sm border border-slate-400 p-4">
           <PlatformTable
             columns={budgetColumns}
             data={sortedBudgets}
@@ -124,7 +124,7 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
       </div>
 
       <div className="space-y-6">
-        <div className="bg-white rounded-sm border border-slate-400 p-4">
+        <div className="bg-component shadow-lg rounded-sm border border-slate-400 p-4">
           <PlatformTable
             columns={budgetColumns}
             data={sortedBudgets}
