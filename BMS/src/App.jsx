@@ -9,6 +9,11 @@ import Access from './pages/admin/Access'
 import Stores from './pages/admin/Stores'
 import Transport from './pages/admin/Transport'
 import Particulars from './pages/admin/Particulars'
+import FlagAnalysis from './pages/admin/FlagAnalysis'
+import StoreRoutes from './pages/admin/StoreRoutes'
+import BudgetAllocation from './pages/fundCustodian/BudgetAllocation'
+import RevolvingFund from './pages/fundCustodian/RevolvingFund'
+import CashDisbursement from './pages/fundCustodian/CashDisbursement'
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
@@ -56,6 +61,11 @@ function App() {
               <Route path="/stores" element={<Stores />} />
               <Route path="/transport" element={<Transport />} />
               <Route path="/particulars" element={<Particulars />} />
+              <Route path="/flag-analysis" element={<FlagAnalysis />} />
+              <Route path="/store-routes" element={<StoreRoutes />} />
+              <Route path="/budget-allocation" element={<BudgetAllocation />} />
+              <Route path="/revolving-fund" element={<RevolvingFund />} />
+              <Route path="/cash-disbursement" element={<CashDisbursement />} />
             </Routes>
           </div>
         </motion.div>

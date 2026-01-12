@@ -20,8 +20,8 @@ export const sidebarOptions = [
     Icon: FiSettings,
     items: [
       { label: 'Stores', path: 'stores' },
-      { label: 'Store Routes', path: '/operations/store-routes' },
-      { label: 'Flag Analysis', path: '/operations/flag-analysis', notifs: 5 },
+      { label: 'Store Routes', path: '/store-routes' },
+      { label: 'Flag Analysis', path: '/flag-analysis', notifs: 5 },
       { label: 'Transport', path: '/transport' },
       { label: 'Particulars', path: '/particulars' },
     ],
@@ -31,9 +31,9 @@ export const sidebarOptions = [
     title: 'Fund Management',
     Icon: LuPhilippinePeso,
     items: [
-      { label: 'Budget Allocation', path: '/funds/budget' },
-      { label: 'Revolving Fund', path: '/funds/revolving-fund', notifs: 3 },
-      { label: 'Cash Disbursement', path: '/funds/cash-disbursement', notifs: 5 },
+      { label: 'Budget Allocation', path: '/budget-allocation' },
+      { label: 'Revolving Fund', path: '/revolving-fund', notifs: 3 },
+      { label: 'Cash Disbursement', path: '/cash-disbursement', notifs: 5 },
     ],
   },
   {

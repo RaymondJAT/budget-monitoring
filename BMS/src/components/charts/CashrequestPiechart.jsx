@@ -7,7 +7,15 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
   const y = cy + radius * Math.sin((-midAngle * Math.PI) / 180)
 
   return (
-    <text x={x} y={y} fill="white" fontSize={10} textAnchor="middle" dominantBaseline="central">
+    <text
+      x={x}
+      y={y}
+      fill="white"
+      fontSize={13}
+      fontWeight="medium"
+      textAnchor="middle"
+      dominantBaseline="central"
+    >
       {`${(percent * 100).toFixed(0)}%`}
     </text>
   )
@@ -23,7 +31,6 @@ const CashRequestPieChart = ({ data }) => {
     )
   }
 
-  // Define colors
   const COLORS = {
     pending_requests: '#f2950a',
     approved_requests: '#1c6b1e',
@@ -45,7 +52,7 @@ const CashRequestPieChart = ({ data }) => {
   const total = processedData.reduce((sum, entry) => sum + entry.value, 0)
 
   return (
-    <div className="h-full w-full bg-component rounded-lg  flex flex-col">
+    <div className="h-full w-full bg-component rounded-lg flex flex-col">
       <div className="flex-1 min-h-62.5 px-3 sm:px-4 pb-3 sm:pb-4">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
@@ -67,14 +74,26 @@ const CashRequestPieChart = ({ data }) => {
                 const percent = total ? ((value / total) * 100).toFixed(1) : 0
                 return [`${value} request(s) (${percent}%)`, name]
               }}
-              contentStyle={{ fontSize: '0.75rem', backgroundColor: '#fff', borderRadius: 6 }}
+              contentStyle={{
+                fontSize: '0.8rem',
+                backgroundColor: '#fff',
+                borderRadius: 6,
+                border: '1px solid #d1d5db',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                zIndex: 1000,
+              }}
+              wrapperStyle={{ zIndex: 1000 }}
             />
 
             <Legend
               layout="vertical"
               verticalAlign="middle"
               align="right"
-              wrapperStyle={{ fontSize: '0.70rem', paddingLeft: 10 }}
+              wrapperStyle={{
+                fontSize: '0.8rem',
+                paddingLeft: 10,
+                zIndex: 10,
+              }}
               formatter={(name) => {
                 const item = processedData.find((d) => d.name === name)
                 const percent = total ? ((item.value / total) * 100).toFixed(1) : 0

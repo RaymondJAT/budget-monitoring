@@ -1,18 +1,22 @@
 import { FiEye, FiEdit, FiTrash2 } from 'react-icons/fi'
+import { LuFolderCheck } from 'react-icons/lu'
 
 const ActionButtons = ({
   onView,
   onEdit,
   onDelete,
+  onSubmit, // New prop for submit action
   row,
   viewLabel = 'View',
   editLabel = 'Edit',
   deleteLabel = 'Delete',
+  submitLabel = 'Submit', // New prop for submit label
   size = 'md',
   showLabels = false,
   showView = true,
   showEdit = true,
   showDelete = true,
+  showSubmit = true, // New prop to control submit button visibility
 }) => {
   const sizeClasses = {
     sm: 'p-1 text-sm',
@@ -31,6 +35,18 @@ const ActionButtons = ({
         >
           <FiEye />
           {showLabels && <span className="hidden sm:inline">{viewLabel}</span>}
+        </button>
+      )}
+
+      {showSubmit && ( // New Submit button with check-in-folder icon
+        <button
+          onClick={() => onSubmit(row)}
+          className={`${sizeClasses[size]} rounded hover:bg-green-50 text-green-600 flex items-center gap-1 cursor-pointer`}
+          title={submitLabel}
+          aria-label={`${submitLabel} ${row.department || row.name || 'item'}`}
+        >
+          <LuFolderCheck />
+          {showLabels && <span className="hidden sm:inline">{submitLabel}</span>}
         </button>
       )}
 

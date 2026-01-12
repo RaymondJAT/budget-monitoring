@@ -46,7 +46,7 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
             <CashFlowChart />
           </div>
 
-          {/* Right column with Cash Requests Pie Chart */}
+          {/* Right Cash Requests */}
           <div className="lg:col-span-4">
             <div className="h-full w-full bg-component shadow-xl rounded-lg border border-slate-400 flex flex-col">
               <div className="p-3 shrink-0">
@@ -88,41 +88,45 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
         </div>
       </div>
 
-      {/* Budget Monitoring Table Section */}
-      <div className="space-y-6">
-        <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-4">
-          <PlatformTable
-            columns={budgetColumns}
-            data={sortedBudgets}
-            sortKey={sortKey}
-            sortDirection={sortDirection}
-            onSort={handleSort}
-            maxHeight="300px"
-            title="Pending Cash Requests"
-            onView={(row) => console.log('View', row)}
-            onEdit={(row) => console.log('Edit', row)}
-            onDelete={(row) => console.log('Delete', row)}
-          />
+      <div className="w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          {/* Pending Cash Requests */}
+          <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-4">
+            <PlatformTable
+              columns={budgetColumns}
+              data={sortedBudgets}
+              sortKey={sortKey}
+              sortDirection={sortDirection}
+              onSort={handleSort}
+              maxHeight="300px"
+              title="Pending Cash Requests"
+              onView={(row) => console.log('View', row)}
+              onEdit={(row) => console.log('Edit', row)}
+              onDelete={(row) => console.log('Delete', row)}
+              showActions={false}
+            />
+          </div>
+
+          {/* Pending Liquidations */}
+          <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-4">
+            <PlatformTable
+              columns={budgetColumns}
+              data={sortedBudgets}
+              sortKey={sortKey}
+              sortDirection={sortDirection}
+              onSort={handleSort}
+              maxHeight="300px"
+              title="Pending Liquidations"
+              onView={(row) => console.log('View', row)}
+              onEdit={(row) => console.log('Edit', row)}
+              onDelete={(row) => console.log('Delete', row)}
+              showActions={false}
+            />
+          </div>
         </div>
       </div>
 
-      <div className="space-y-6">
-        <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-4">
-          <PlatformTable
-            columns={budgetColumns}
-            data={sortedBudgets}
-            sortKey={sortKey}
-            sortDirection={sortDirection}
-            onSort={handleSort}
-            maxHeight="300px"
-            title="Pending Liquidations"
-            onView={(row) => console.log('View', row)}
-            onEdit={(row) => console.log('Edit', row)}
-            onDelete={(row) => console.log('Delete', row)}
-          />
-        </div>
-      </div>
-
+      {/* revolving fund activity */}
       <div className="space-y-6">
         <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-4">
           <PlatformTable
@@ -136,6 +140,7 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
             onView={(row) => console.log('View', row)}
             onEdit={(row) => console.log('Edit', row)}
             onDelete={(row) => console.log('Delete', row)}
+            showActions={false}
           />
         </div>
       </div>

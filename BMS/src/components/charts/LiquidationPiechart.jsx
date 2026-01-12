@@ -22,7 +22,6 @@ const LiquidationPieChart = ({ data }) => {
     )
   }
 
-  // Colors for liquidation statuses
   const COLORS = {
     pending_liquidations: '#f2950a',
     approved_liquidations: '#1c6b1e',
@@ -68,17 +67,25 @@ const LiquidationPieChart = ({ data }) => {
                 return [`${value} liquidation(s) (${percent}%)`, name]
               }}
               contentStyle={{
-                fontSize: '0.75rem',
+                fontSize: '0.8rem',
                 backgroundColor: '#fff',
                 borderRadius: 6,
+                border: '1px solid #d1d5db',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                zIndex: 1000,
               }}
+              wrapperStyle={{ zIndex: 1000 }}
             />
 
             <Legend
               layout="vertical"
               verticalAlign="middle"
               align="right"
-              wrapperStyle={{ fontSize: '0.70rem', paddingLeft: 10 }}
+              wrapperStyle={{
+                fontSize: '0.8rem',
+                paddingLeft: 10,
+                zIndex: 10,
+              }}
               formatter={(name) => {
                 const item = processedData.find((d) => d.name === name)
                 const percent = total ? ((item.value / total) * 100).toFixed(1) : 0
