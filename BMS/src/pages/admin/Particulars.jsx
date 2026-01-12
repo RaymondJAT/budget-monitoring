@@ -229,16 +229,10 @@ const Particulars = () => {
               title="Particulars List"
               responsive={true}
               containerClassName="h-full"
-              onView={(row) => console.log('View particular:', row)}
               onEdit={(row) => console.log('Edit particular:', row)}
-              onDelete={(row) => console.log('Delete particular:', row)}
               actionButtonProps={{
-                viewLabel: 'View Details',
                 editLabel: 'Edit Particular',
-                deleteLabel: 'Deactivate',
-                showView: false,
                 showEdit: true,
-                showDelete: false,
               }}
             />
           </div>

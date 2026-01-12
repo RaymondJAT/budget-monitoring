@@ -5,6 +5,7 @@ import CashrequestPiechart from '../../components/charts/CashrequestPiechart'
 import LiquidationPiechart from '../../components/charts/LiquidationPiechart'
 import OutstandingBalanceChart from '../../components/charts/OutstandingBalanceChart'
 import PlatformTable, { budgetColumns, createBudgetData } from '../../components/PlatformTable'
+import { cardDataCustodian } from '../../data/cardData'
 
 const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
   const budgets = useMemo(() => createBudgetData(8), [])
@@ -36,7 +37,7 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
   return (
     <div className="pt-6 p-3 space-y-3">
       {/* Dashboard Cards */}
-      <Cards />
+      <Cards cardData={cardDataCustodian} />
 
       {/* Top Section */}
       <div className="w-full">

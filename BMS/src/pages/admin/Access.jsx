@@ -142,16 +142,10 @@ const Access = () => {
               title="Access List"
               responsive={true}
               containerClassName="h-full"
-              onView={(row) => console.log('View access:', row)}
               onEdit={(row) => console.log('Edit access:', row)}
-              onDelete={(row) => console.log('Delete access:', row)}
               actionButtonProps={{
-                viewLabel: 'View Details',
                 editLabel: 'Edit Access',
-                deleteLabel: 'Deactivate',
-                showView: false,
                 showEdit: true,
-                showDelete: true,
               }}
             />
           </div>

@@ -166,10 +166,8 @@ const createFlagAnalysisData = (count) => {
     const problemType = Math.random()
     let finalAmount = amount
     if (problemType < 0.3) {
-      // Above max
       finalAmount = maxAmount + Math.floor(Math.random() * 1000) + 500
     } else if (problemType < 0.5) {
-      // Below min
       finalAmount = minAmount - Math.floor(Math.random() * 300)
     }
 
@@ -206,19 +204,16 @@ const FlagAnalysis = () => {
   const filteredAndSortedData = useMemo(() => {
     let filtered = [...flagData]
 
-    // Apply status filter
     if (statusFilter) {
       filtered = filtered.filter((item) => item.status === statusFilter)
     }
 
-    // Apply transport filter
     if (transportFilter) {
       filtered = filtered.filter((item) =>
         item.transportMode.toLowerCase().includes(transportFilter.toLowerCase())
       )
     }
 
-    // Apply search filter
     if (searchQuery) {
       const query = searchQuery.toLowerCase()
       filtered = filtered.filter(
@@ -230,7 +225,6 @@ const FlagAnalysis = () => {
       )
     }
 
-    // Apply sorting
     return filtered.sort((a, b) => {
       if (a[sortKey] < b[sortKey]) return sortDirection === 'asc' ? -1 : 1
       if (a[sortKey] > b[sortKey]) return sortDirection === 'asc' ? 1 : -1
@@ -242,23 +236,6 @@ const FlagAnalysis = () => {
     setSortDirection((prev) => (sortKey === key && prev === 'asc' ? 'desc' : 'asc'))
     setSortKey(key)
   }
-
-  // Calculate statistics
-  const statistics = useMemo(() => {
-    const total = filteredAndSortedData.length
-    const aboveMax = filteredAndSortedData.filter((item) => item.amount > item.maxAmount).length
-    const belowMin = filteredAndSortedData.filter((item) => item.amount < item.minAmount).length
-    const withinRange = total - aboveMax - belowMin
-
-    return {
-      total,
-      aboveMax,
-      belowMin,
-      withinRange,
-      aboveMaxPercentage: total ? ((aboveMax / total) * 100).toFixed(1) : 0,
-      belowMinPercentage: total ? ((belowMin / total) * 100).toFixed(1) : 0,
-    }
-  }, [filteredAndSortedData])
 
   return (
     <div className="h-full flex flex-col">
@@ -331,16 +308,12 @@ const FlagAnalysis = () => {
               title="Transportation Expense Flags"
               responsive={true}
               containerClassName="h-full"
-              onView={(row) => console.log('View flag details:', row)}
-              onEdit={(row) => console.log('Edit flag:', row)}
-              onDelete={(row) => console.log('Delete flag:', row)}
               actionButtonProps={{
-                viewLabel: 'View Details',
-                editLabel: 'Adjust Amount',
-                deleteLabel: 'Remove Flag',
+                submitLabel: 'Approve Flag',
+                rejectLabel: 'Reject Flag',
                 showView: false,
-                showEdit: true,
-                showDelete: false,
+                showSubmit: true,
+                showReject: true,
               }}
             />
           </div>

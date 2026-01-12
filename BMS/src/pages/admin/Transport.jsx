@@ -164,16 +164,10 @@ const Transport = () => {
               title="Transport List"
               responsive={true}
               containerClassName="h-full"
-              onView={(row) => console.log('View transport:', row)}
               onEdit={(row) => console.log('Edit transport:', row)}
-              onDelete={(row) => console.log('Delete transport:', row)}
               actionButtonProps={{
-                viewLabel: 'View Details',
                 editLabel: 'Edit Transport',
-                deleteLabel: 'Deactivate',
-                showView: false,
                 showEdit: true,
-                showDelete: false,
               }}
             />
           </div>

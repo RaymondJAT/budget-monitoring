@@ -177,16 +177,10 @@ const Users = () => {
               title="User List"
               responsive={true}
               containerClassName="h-full"
-              onView={(row) => console.log('View user:', row)}
               onEdit={(row) => console.log('Edit user:', row)}
-              onDelete={(row) => console.log('Delete user:', row)}
               actionButtonProps={{
-                viewLabel: 'View Details',
                 editLabel: 'Edit User',
-                deleteLabel: 'Deactivate',
-                showView: false,
                 showEdit: true,
-                showDelete: false,
               }}
             />
           </div>

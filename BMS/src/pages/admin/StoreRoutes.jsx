@@ -236,9 +236,6 @@ const StoreRoutes = () => {
               title="Store Routes & Liquidations"
               responsive={true}
               containerClassName="h-full"
-              onView={(row) => console.log('View store route details:', row)}
-              onEdit={(row) => console.log('Edit store route:', row)}
-              onDelete={(row) => console.log('Delete store route:', row)}
               showActions={false}
             />
           </div>

@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import PlatformTable from '../../components/PlatformTable'
 import Cards from '../../components/Cards'
+import { cardDataCustodian } from '../../data/cardData'
 
 const cashDisbursementColumns = [
   {
@@ -76,7 +77,7 @@ const cashDisbursementColumns = [
     key: 'amountIssue',
     label: 'Amount Issue',
     sortable: true,
-    align: 'left',
+    align: 'right',
     minWidth: '110px',
     render: (value) => (
       <span className="font-semibold text-amber-700 text-sm">₱{value.toLocaleString()}</span>
@@ -86,7 +87,7 @@ const cashDisbursementColumns = [
     key: 'amountExpended',
     label: 'Amount Expended',
     sortable: true,
-    align: 'left',
+    align: 'right',
     minWidth: '120px',
     render: (value) => (
       <span className="font-semibold text-rose-700 text-sm">₱{value.toLocaleString()}</span>
@@ -94,9 +95,9 @@ const cashDisbursementColumns = [
   },
   {
     key: 'outstandingAmount',
-    label: 'Outstanding Amount',
+    label: 'Outstanding',
     sortable: true,
-    align: 'left',
+    align: 'right',
     minWidth: '130px',
     render: (value) => {
       let textColor = 'text-gray-700'
@@ -220,24 +221,27 @@ const createCashDisbursementData = (count) => {
     return randomDate.toISOString().split('T')[0]
   }
 
+  const generateLiquidationDate = (issueDate) => {
+    const issue = new Date(issueDate)
+
+    issue.setDate(issue.getDate() + Math.floor(Math.random() * 30) + 1)
+    return issue.toISOString().split('T')[0]
+  }
+
   return Array.from({ length: count }, (_, i) => {
     const amountIssue = Math.floor(Math.random() * 50000) + 5000
     const amountExpended = Math.floor(amountIssue * (Math.random() * 0.8 + 0.1))
     const outstandingAmount = Math.max(0, amountIssue - amountExpended)
 
-    // Status logic
+    const dateIssue = generateRandomDate(30, 90)
+
     let status = 'Unliquidated'
     let dateLiquidated = null
 
-    if (outstandingAmount === 0 && Math.random() > 0.3) {
+    if (Math.random() < 0.4 || outstandingAmount === 0) {
       status = 'Liquidated'
-      const issueDate = new Date(generateRandomDate(30, 90))
-      const liquidationDate = new Date(issueDate)
-      liquidationDate.setDate(liquidationDate.getDate() + Math.floor(Math.random() * 30))
-      dateLiquidated = liquidationDate.toISOString().split('T')[0]
+      dateLiquidated = generateLiquidationDate(dateIssue)
     }
-
-    const dateIssue = generateRandomDate(30, 90)
 
     return {
       id: i + 1,
@@ -320,7 +324,7 @@ const CashDisbursement = () => {
     <div className="h-full flex flex-col">
       <div className="flex-1 min-h-0 p-3">
         <div className="mt-3">
-          <Cards />
+          <Cards cardData={cardDataCustodian} />
         </div>
 
         <div className="bg-component shadow-lg rounded-lg border border-slate-400 mb-3">
@@ -386,16 +390,10 @@ const CashDisbursement = () => {
                 tableClassName="w-full table-auto"
                 headerClassName="sticky top-0 bg-white z-10"
                 cellClassName="whitespace-nowrap"
-                onView={(row) => console.log('View cash disbursement details:', row)}
                 onEdit={(row) => console.log('Edit cash disbursement:', row)}
-                onDelete={(row) => console.log('Delete cash disbursement:', row)}
                 actionButtonProps={{
-                  viewLabel: 'View',
-                  editLabel: 'Edit',
-                  deleteLabel: 'Delete',
-                  showView: true,
+                  editLabel: 'Edit Cash Disbursement',
                   showEdit: true,
-                  showDelete: false,
                 }}
               />
             </div>

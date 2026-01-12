@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import PlatformTable from '../../components/PlatformTable'
 import Cards from '../../components/Cards'
+import { cardDataCustodian } from '../../data/cardData'
 
 const revolvingFundColumns = [
   {
@@ -386,7 +387,7 @@ const RevolvingFund = () => {
     <div className="h-full flex flex-col">
       <div className="flex-1 min-h-0 p-3">
         <div className="mt-3">
-          <Cards />
+          <Cards cardData={cardDataCustodian} />
         </div>
 
         <div className="bg-component shadow-lg rounded-lg border border-slate-400 mb-3">
@@ -456,14 +457,14 @@ const RevolvingFund = () => {
                 cellClassName="whitespace-nowrap"
                 onView={(row) => console.log('View revolving fund details:', row)}
                 onEdit={(row) => console.log('Edit revolving fund:', row)}
-                onDelete={(row) => console.log('Close revolving fund:', row)}
+                onSubmit={(row) => console.log('Submit revolving fund:', row)}
                 actionButtonProps={{
-                  viewLabel: 'View',
-                  editLabel: 'Edit',
-                  deleteLabel: 'Close',
+                  viewLabel: 'View fund',
+                  editLabel: 'Edit fund',
+                  submitLabel: 'Submit fund',
                   showView: true,
                   showEdit: true,
-                  showDelete: false,
+                  showSubmit: true,
                 }}
               />
             </div>

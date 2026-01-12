@@ -92,6 +92,11 @@ const PlatformTable = ({
   tableClassName = '',
   responsive = true,
   showActions = true,
+  showCheckboxes = false,
+  selectedRows = [],
+  onSelectionChange,
+  selectAll = false,
+  onSelectAll,
 }) => {
   const shouldUseInlineStyle = () => {
     if (typeof maxHeight === 'string') {
@@ -126,6 +131,36 @@ const PlatformTable = ({
   }
 
   const hasHeightClass = typeof maxHeight === 'string' && maxHeight.startsWith('h-')
+
+  // Handle individual row selection
+  const handleRowSelect = (rowId) => {
+    if (!onSelectionChange) return
+
+    const isSelected = selectedRows.includes(rowId)
+    if (isSelected) {
+      onSelectionChange(selectedRows.filter((id) => id !== rowId))
+    } else {
+      onSelectionChange([...selectedRows, rowId])
+    }
+  }
+
+  // Handle select all/none
+  const handleSelectAll = () => {
+    if (!onSelectAll) return
+
+    if (selectAll) {
+      onSelectAll(false, [])
+    } else {
+      const allIds = data.map((row) => row.id)
+      onSelectAll(true, allIds)
+    }
+  }
+
+  // Calculate if all rows are selected (for indeterminate state)
+  const getIndeterminateState = () => {
+    if (selectAll) return false
+    return selectedRows.length > 0 && selectedRows.length < data.length
+  }
 
   return (
     <div
@@ -164,6 +199,28 @@ const PlatformTable = ({
         >
           <thead className="bg-gray-300 sticky top-0 z-10">
             <tr>
+              {/* Checkbox column header */}
+              {showCheckboxes && (
+                <th
+                  className="px-4 py-3 text-center font-semibold uppercase whitespace-nowrap"
+                  style={!responsive ? { width: '5%' } : {}}
+                >
+                  <div className="flex justify-center">
+                    <input
+                      type="checkbox"
+                      checked={selectAll}
+                      ref={(input) => {
+                        if (input) {
+                          input.indeterminate = getIndeterminateState()
+                        }
+                      }}
+                      onChange={handleSelectAll}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                    />
+                  </div>
+                </th>
+              )}
+
               {columns.map((col) => (
                 <th
                   key={col.key}
@@ -210,7 +267,24 @@ const PlatformTable = ({
 
           <tbody className="divide-y">
             {data.map((row) => (
-              <tr key={row.id} className="hover:bg-gray-50">
+              <tr
+                key={row.id}
+                className={`hover:bg-gray-50 ${selectedRows.includes(row.id) ? 'bg-blue-50' : ''}`}
+              >
+                {/* Checkbox column cell */}
+                {showCheckboxes && (
+                  <td className="px-4 py-3 text-center" style={!responsive ? { width: '5%' } : {}}>
+                    <div className="flex justify-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedRows.includes(row.id)}
+                        onChange={() => handleRowSelect(row.id)}
+                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                      />
+                    </div>
+                  </td>
+                )}
+
                 {columns.map((col) => (
                   <td
                     key={col.key}

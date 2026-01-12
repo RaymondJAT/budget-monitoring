@@ -189,16 +189,10 @@ const Stores = () => {
               title="Store List"
               responsive={true}
               containerClassName="h-full"
-              onView={(row) => console.log('View store:', row)}
               onEdit={(row) => console.log('Edit store:', row)}
-              onDelete={(row) => console.log('Delete store:', row)}
               actionButtonProps={{
-                viewLabel: 'View Details',
                 editLabel: 'Edit Store',
-                deleteLabel: 'Deactivate',
-                showView: false,
                 showEdit: true,
-                showDelete: false,
               }}
             />
           </div>

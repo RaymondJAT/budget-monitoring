@@ -14,6 +14,12 @@ import StoreRoutes from './pages/admin/StoreRoutes'
 import BudgetAllocation from './pages/fundCustodian/BudgetAllocation'
 import RevolvingFund from './pages/fundCustodian/RevolvingFund'
 import CashDisbursement from './pages/fundCustodian/CashDisbursement'
+import MyRequest from './pages/requester/MyRequest'
+import ForLiquidation from './pages/requester/ForLiquidation'
+import PendingApprovals from './pages/teamLeader/PendingApprovals'
+import ApprovedRequest from './pages/teamLeader/ApprovedRequest'
+import RejectedRequest from './pages/teamLeader/RejectedRequest'
+import ForProcessing from './pages/fundCustodian/ForProcessing'
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
@@ -66,6 +72,12 @@ function App() {
               <Route path="/budget-allocation" element={<BudgetAllocation />} />
               <Route path="/revolving-fund" element={<RevolvingFund />} />
               <Route path="/cash-disbursement" element={<CashDisbursement />} />
+              <Route path="/my-request" element={<MyRequest />} />
+              <Route path="/for-liquidation" element={<ForLiquidation />} />
+              <Route path="/pending-approvals" element={<PendingApprovals />} />
+              <Route path="/approved-request" element={<ApprovedRequest />} />
+              <Route path="/rejected-request" element={<RejectedRequest />} />
+              <Route path="/for-processing" element={<ForProcessing />} />
             </Routes>
           </div>
         </motion.div>

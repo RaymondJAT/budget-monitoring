@@ -1,27 +1,45 @@
-import { FiEye, FiEdit, FiTrash2 } from 'react-icons/fi'
+import { FiEye, FiEdit, FiTrash2, FiSettings, FiX, FiDownload } from 'react-icons/fi'
 import { LuFolderCheck } from 'react-icons/lu'
 
 const ActionButtons = ({
   onView,
   onEdit,
   onDelete,
-  onSubmit, // New prop for submit action
+  onSubmit,
+  onConfigure,
+  onReject,
+  onDownload,
   row,
   viewLabel = 'View',
   editLabel = 'Edit',
   deleteLabel = 'Delete',
-  submitLabel = 'Submit', // New prop for submit label
+  submitLabel = 'Submit',
+  configureLabel = 'Configure',
+  rejectLabel = 'Reject',
+  downloadLabel = 'Download PDF',
   size = 'md',
   showLabels = false,
-  showView = true,
-  showEdit = true,
-  showDelete = true,
-  showSubmit = true, // New prop to control submit button visibility
+  showView = false,
+  showEdit = false,
+  showDelete = false,
+  showSubmit = false,
+  showConfigure = false,
+  showReject = false,
+  showDownload = false,
 }) => {
   const sizeClasses = {
     sm: 'p-1 text-sm',
     md: 'p-2',
     lg: 'p-3 text-lg',
+  }
+
+  // Default download handler
+  const handleDownload = () => {
+    if (onDownload) {
+      onDownload(row)
+    } else {
+      console.log('Download PDF for:', row)
+    }
   }
 
   return (
@@ -38,7 +56,7 @@ const ActionButtons = ({
         </button>
       )}
 
-      {showSubmit && ( // New Submit button with check-in-folder icon
+      {showSubmit && (
         <button
           onClick={() => onSubmit(row)}
           className={`${sizeClasses[size]} rounded hover:bg-green-50 text-green-600 flex items-center gap-1 cursor-pointer`}
@@ -59,6 +77,42 @@ const ActionButtons = ({
         >
           <FiEdit />
           {showLabels && <span className="hidden sm:inline">{editLabel}</span>}
+        </button>
+      )}
+
+      {showConfigure && (
+        <button
+          onClick={() => onConfigure(row)}
+          className={`${sizeClasses[size]} rounded hover:bg-purple-50 text-purple-600 flex items-center gap-1 cursor-pointer`}
+          title={configureLabel}
+          aria-label={`${configureLabel} ${row.department || row.name || 'item'}`}
+        >
+          <FiSettings />
+          {showLabels && <span className="hidden sm:inline">{configureLabel}</span>}
+        </button>
+      )}
+
+      {showReject && (
+        <button
+          onClick={() => onReject(row)}
+          className={`${sizeClasses[size]} rounded hover:bg-orange-50 text-orange-600 flex items-center gap-1 cursor-pointer`}
+          title={rejectLabel}
+          aria-label={`${rejectLabel} ${row.department || row.name || 'item'}`}
+        >
+          <FiX />
+          {showLabels && <span className="hidden sm:inline">{rejectLabel}</span>}
+        </button>
+      )}
+
+      {showDownload && ( // New Download PDF button
+        <button
+          onClick={handleDownload}
+          className={`${sizeClasses[size]} rounded hover:bg-indigo-50 text-indigo-600 flex items-center gap-1 cursor-pointer`}
+          title={downloadLabel}
+          aria-label={`${downloadLabel} ${row.department || row.name || 'item'}`}
+        >
+          <FiDownload />
+          {showLabels && <span className="hidden sm:inline">{downloadLabel}</span>}
         </button>
       )}
 

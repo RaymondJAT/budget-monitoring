@@ -41,11 +41,12 @@ export const sidebarOptions = [
     title: 'Cash Requests',
     Icon: TbMoneybag,
     items: [
-      { label: 'New Request', path: '/cash/new', notifs: 5 },
-      { label: 'Pending', path: '/cash/pending', notifs: 8 },
-      { label: 'Approved', path: '/cash/approved' },
-      { label: 'Rejected', path: '/cash/rejected' },
-      { label: 'History', path: '/cash/history' },
+      { label: 'My Requests', path: '/my-request', notifs: 5 },
+      { label: 'For Liquidation', path: '/for-liquidation', notifs: 8 },
+      { label: 'Pending Approvals', path: '/pending-approvals' },
+      { label: 'Approved Requests', path: '/approved-request' },
+      { label: 'Rejected Requests', path: '/rejected-request' },
+      { label: 'For Processing', path: '/for-processing' },
     ],
   },
   {

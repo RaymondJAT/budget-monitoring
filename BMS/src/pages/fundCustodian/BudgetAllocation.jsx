@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import PlatformTable from '../../components/PlatformTable'
 import Cards from '../../components/Cards'
+import { cardDataCustodian } from '../../data/cardData'
 
 const budgetAllocationColumns = [
   {
@@ -208,7 +209,7 @@ const BudgetAllocation = () => {
     <div className="h-full flex flex-col">
       <div className="flex-1 min-h-0 p-3">
         <div className="mt-3">
-          <Cards />
+          <Cards cardData={cardDataCustodian} />
         </div>
 
         <div className="bg-component shadow-lg rounded-lg border border-slate-400 mb-3">
@@ -279,15 +280,9 @@ const BudgetAllocation = () => {
               responsive={true}
               containerClassName="h-full"
               onView={(row) => console.log('View budget details:', row)}
-              onEdit={(row) => console.log('Edit budget:', row)}
-              onDelete={(row) => console.log('Delete budget:', row)}
               actionButtonProps={{
                 viewLabel: 'View Details',
-                editLabel: 'Adjust Budget',
-                deleteLabel: 'Remove Allocation',
                 showView: true,
-                showEdit: false,
-                showDelete: false,
               }}
             />
           </div>
