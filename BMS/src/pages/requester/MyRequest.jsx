@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PlatformTable from '../../components/PlatformTable'
 import Cards from '../../components/Cards'
 import { cardDataRequester } from '../../data/cardData'
@@ -173,6 +174,7 @@ const createMyRequestData = (count) => {
 }
 
 const MyRequest = () => {
+  const navigate = useNavigate()
   const [sortKey, setSortKey] = useState('requestDate')
   const [sortDirection, setSortDirection] = useState('desc')
   const [statusFilter, setStatusFilter] = useState('')
@@ -243,14 +245,10 @@ const MyRequest = () => {
   }
 
   // Actions
-  const handleNewRequest = () => {
-    console.log('Create new cash request')
-  }
+  const handleNewRequest = () => {}
 
   const handleExportSelected = () => {
     if (selectedRows.length === 0) return
-
-    console.log('Exporting selected requests:', selectedRows)
 
     // Get the selected rows data
     const selectedData = requestData.filter((row) => selectedRows.includes(row.id))
@@ -266,6 +264,11 @@ const MyRequest = () => {
     }))
 
     console.log('Data to export:', exportData)
+  }
+
+  const handleRowClick = (row) => {
+    console.log('Row clicked:', row)
+    navigate(`/view-form/${row.id}`)
   }
 
   return (
@@ -375,6 +378,7 @@ const MyRequest = () => {
               onSelectionChange={handleSelectionChange}
               selectAll={selectAll}
               onSelectAll={handleSelectAll}
+              onRowClick={handleRowClick}
               onDownload={(row) => console.log('Download request:', row)}
               actionButtonProps={{
                 downloadLabel: 'Download PDF',

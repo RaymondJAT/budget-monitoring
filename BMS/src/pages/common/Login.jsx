@@ -31,10 +31,10 @@ const Login = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-800 via-rose-100 to-red-600 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-linear-to-br from-red-800 via-rose-100 to-red-600 flex items-center justify-center p-4">
       <div className="bg-white shadow-2xl rounded-xl border border-slate-300 w-full max-w-5xl flex overflow-hidden">
         {/* Left Side - Banner */}
-        <div className="hidden lg:flex lg:w-2/5 bg-gradient-to-br from-red-700 to-red-900 p-10 flex-col justify-between">
+        <div className="hidden lg:flex lg:w-2/5 bg-linear-to-br from-red-700 to-red-900 p-10 flex-col justify-between">
           <div>
             <div className="flex items-center mb-8">
               <div className="bg-white p-2 rounded-lg">
@@ -77,7 +77,7 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Right Side - Login Form */}
+        {/* Login Form*/}
         <div className="w-full lg:w-3/5 p-8 lg:p-10">
           <div className="max-w-md mx-auto">
             {/* Mobile Header */}
@@ -204,7 +204,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center items-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-linear-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <>

@@ -84,6 +84,7 @@ const PlatformTable = ({
   onView,
   onEdit,
   onDelete,
+  onRowClick,
   maxHeight = '400px',
   actionButtonProps = {},
   title = null,
@@ -156,7 +157,7 @@ const PlatformTable = ({
     }
   }
 
-  // Calculate if all rows are selected (for indeterminate state)
+  // Calculate if all rows are selected
   const getIndeterminateState = () => {
     if (selectAll) return false
     return selectedRows.length > 0 && selectedRows.length < data.length
@@ -269,7 +270,10 @@ const PlatformTable = ({
             {data.map((row) => (
               <tr
                 key={row.id}
-                className={`hover:bg-gray-50 ${selectedRows.includes(row.id) ? 'bg-blue-50' : ''}`}
+                className={`hover:bg-gray-50 ${selectedRows.includes(row.id) ? 'bg-blue-50' : ''} ${
+                  onRowClick ? 'cursor-pointer' : ''
+                }`}
+                onClick={() => onRowClick && onRowClick(row)}
               >
                 {/* Checkbox column cell */}
                 {showCheckboxes && (

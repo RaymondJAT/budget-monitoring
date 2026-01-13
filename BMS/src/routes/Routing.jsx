@@ -42,6 +42,9 @@ import FlagAnalysis from '../pages/admin/FlagAnalysis'
 import Transport from '../pages/admin/Transport'
 import Particulars from '../pages/admin/Particulars'
 
+// common
+import ViewFormPage from '../pages/common/ViewformPage'
+
 const Routing = ({ sortKey, setSortKey, sortDirection, setSortDirection, handleSort }) => {
   return (
     <Routes>
@@ -88,6 +91,7 @@ const Routing = ({ sortKey, setSortKey, sortDirection, setSortDirection, handleS
       <Route path="/finance-reject" element={<FinanceReject />} />
       <Route path="/finance-complete" element={<FinanceComplete />} />
       <Route path="/finance-approval" element={<FinanceApproval />} />
+      <Route path="/view-form/:id" element={<ViewFormPage />} />
     </Routes>
   )
 }
