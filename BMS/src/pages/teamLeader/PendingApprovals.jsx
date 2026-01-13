@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PlatformTable from '../../components/PlatformTable'
 import Cards from '../../components/Cards'
 import { cardDataApprover } from '../../data/cardData'
@@ -173,6 +174,7 @@ const createPendingApprovalsData = (count) => {
 }
 
 const PendingApprovals = () => {
+  const navigate = useNavigate()
   const [sortKey, setSortKey] = useState('submittedDate')
   const [sortDirection, setSortDirection] = useState('desc')
   const [departmentFilter, setDepartmentFilter] = useState('')
@@ -183,7 +185,7 @@ const PendingApprovals = () => {
 
   const approvalsData = useMemo(() => createPendingApprovalsData(25), [])
 
-  //   filter
+  // filter
   const filteredAndSortedData = useMemo(() => {
     let filtered = [...approvalsData]
 
@@ -243,7 +245,15 @@ const PendingApprovals = () => {
     setSelectedRows(isSelected ? allIds : [])
   }
 
-  //   export
+  // Add row click handler
+  const handleRowClick = (row) => {
+    console.log('Row clicked:', row)
+    navigate(`/view-form/${row.id}`, {
+      state: { role: 'teamLeader' },
+    })
+  }
+
+  // export
   const handleExportSelected = () => {
     if (selectedRows.length === 0) return
 
@@ -401,6 +411,7 @@ const PendingApprovals = () => {
               onSelectionChange={handleSelectionChange}
               selectAll={selectAll}
               onSelectAll={handleSelectAll}
+              onRowClick={handleRowClick}
               onDownload={(row) => console.log('Download request document:', row)}
               actionButtonProps={{
                 downloadLabel: 'Download PDF',

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PlatformTable from '../../components/PlatformTable'
 import Cards from '../../components/Cards'
 import { cardDataRequester } from '../../data/cardData'
@@ -195,6 +196,7 @@ const createForLiquidationData = (count) => {
 }
 
 const ForLiquidation = () => {
+  const navigate = useNavigate() // Add navigate hook
   const [sortKey, setSortKey] = useState('completionDate')
   const [sortDirection, setSortDirection] = useState('desc')
   const [statusFilter, setStatusFilter] = useState('')
@@ -204,6 +206,17 @@ const ForLiquidation = () => {
   const [selectAll, setSelectAll] = useState(false)
 
   const liquidationData = useMemo(() => createForLiquidationData(35), [])
+
+  // Add row click handler - Pass role as state
+  const handleRowClick = (row) => {
+    console.log('Row clicked:', row)
+    navigate(`/view-form/${row.id}`, {
+      state: {
+        role: 'requester',
+        status: row.status,
+      },
+    })
+  }
 
   //   filter
   const filteredAndSortedData = useMemo(() => {
@@ -426,6 +439,7 @@ const ForLiquidation = () => {
               onSelectionChange={handleSelectionChange}
               selectAll={selectAll}
               onSelectAll={handleSelectAll}
+              onRowClick={handleRowClick} // Add onRowClick prop
               onDownload={(row) => console.log('Download liquidation report:', row)}
               actionButtonProps={{
                 downloadLabel: 'Download Receipt',

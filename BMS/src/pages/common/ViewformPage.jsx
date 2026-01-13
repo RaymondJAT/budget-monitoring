@@ -1,10 +1,25 @@
-import { useParams, useNavigate } from 'react-router-dom'
-import { useMemo, useState } from 'react'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useMemo, useState, useEffect } from 'react'
 
 const ViewFormPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
-  const [currentUserRole] = useState('requester')
+  const location = useLocation()
+  const [currentUserRole, setCurrentUserRole] = useState('requester')
+  const [requestStatus, setRequestStatus] = useState('')
+
+  // Get role and status from location state when component mounts
+  useEffect(() => {
+    if (location.state?.role) {
+      setCurrentUserRole(location.state.role)
+    }
+    if (location.state?.status) {
+      setRequestStatus(location.state.status)
+    }
+  }, [location.state])
+
+  // Then use requestStatus instead of requestData.status
+  const isEligibleForLiquidation = requestStatus === 'Completed'
 
   // Mock data
   const requestData = useMemo(() => {
@@ -116,6 +131,13 @@ const ViewFormPage = () => {
     window.print()
   }
 
+  // Add handleLiquidation function
+  const handleLiquidation = () => {
+    console.log('Starting liquidation for request:', requestData.id)
+    alert('Starting liquidation process!')
+    // You can add navigation to a liquidation form or modal here
+  }
+
   const formatDate = (dateString) => {
     if (!dateString) return '-'
     const date = new Date(dateString)
@@ -127,6 +149,10 @@ const ViewFormPage = () => {
   }
 
   const renderActionButtons = () => {
+    // Check if request is eligible for liquidation - ONLY when status is "Completed"
+    // Use requestStatus from location state
+    const isEligibleForLiquidation = requestStatus === 'Completed'
+
     return (
       <div className="flex flex-wrap gap-2">
         {/* Print Button - Common for all roles */}
@@ -231,6 +257,30 @@ const ViewFormPage = () => {
           </button>
         )}
 
+        {/* Liquidation button for requester - ONLY when status is "Completed" */}
+        {currentUserRole === 'requester' && isEligibleForLiquidation && (
+          <button
+            onClick={handleLiquidation}
+            className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition text-sm font-medium flex items-center gap-2"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+            Liquidation
+          </button>
+        )}
+
         {/* Common actions for all roles */}
         <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium flex items-center gap-2 border border-slate-400">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -306,19 +356,19 @@ const ViewFormPage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-500">Employee</label>
-                <p className="mt-1 text-gray-900 font-medium">{requestData.employee}</p>
+                <p className="mt-1  font-medium">{requestData.employee}</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-500">Department</label>
-                <p className="mt-1 text-gray-900 font-medium">{requestData.department}</p>
+                <p className="mt-1  font-medium">{requestData.department}</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-500">Position</label>
-                <p className="mt-1 text-gray-900 font-medium">{requestData.position}</p>
+                <p className="mt-1  font-medium">{requestData.position}</p>
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-500">Team Lead</label>
-                <p className="mt-1 text-gray-900 font-medium">{requestData.teamLead}</p>
+                <p className="mt-1  font-medium">{requestData.teamLead}</p>
               </div>
             </div>
           </div>
@@ -329,7 +379,7 @@ const ViewFormPage = () => {
           {/* Request Details */}
           <div className="lg:col-span-2">
             <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-6 h-full">
-              <h2 className="text-xl font-bold text-gray-800 mb-6 pb-3 border-b border-slate-200">
+              <h2 className="text-lg font-bold text-gray-800 mb-6 pb-3 border-b border-slate-200">
                 Request Details
               </h2>
 
@@ -337,38 +387,32 @@ const ViewFormPage = () => {
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-500">Reference ID</label>
-                    <p className="mt-1 text-gray-900 font-medium font-mono">
-                      {requestData.referenceId}
-                    </p>
+                    <p className="mt-1  font-medium font-mono">{requestData.referenceId}</p>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-500">Request Date</label>
-                    <p className="mt-1 text-gray-900 font-medium">
-                      {formatDate(requestData.requestDate)}
-                    </p>
+                    <p className="mt-1  font-medium">{formatDate(requestData.requestDate)}</p>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-500">Particulars</label>
-                    <p className="mt-1 text-gray-900 font-medium">{requestData.particulars}</p>
+                    <p className="mt-1  font-medium">{requestData.particulars}</p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-500">Amount</label>
-                    <p className="mt-1 text-2xl font-bold text-green-700">
-                      ₱{requestData.amount.toLocaleString()}
-                    </p>
+                    <p className="mt-1 text-sm font-bold">₱{requestData.amount.toLocaleString()}</p>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-500">
                       Amount in Words
                     </label>
-                    <p className="mt-1 text-gray-900 italic">{requestData.amountInWords}</p>
+                    <p className="mt-1  italic">{requestData.amountInWords}</p>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-500">Notes</label>
-                    <p className="mt-1 text-gray-900">{requestData.notes}</p>
+                    <p className="mt-1 ">{requestData.notes}</p>
                   </div>
                 </div>
               </div>
@@ -378,7 +422,7 @@ const ViewFormPage = () => {
           {/* Amount Summary */}
           <div>
             <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-6 h-full">
-              <h2 className="text-xl font-bold text-gray-800 mb-6 pb-3 border-b border-slate-200">
+              <h2 className="text-lg font-bold text-gray-800 mb-6 pb-3 border-b border-slate-200">
                 Amount Summary
               </h2>
 
@@ -389,20 +433,12 @@ const ViewFormPage = () => {
                       <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
                         Amount
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Total
-                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr className="border-b border-slate-200">
                       <td className="px-4 py-3 text-right">
                         <span className="text-lg font-semibold text-gray-800">
-                          ₱{requestData.amount.toLocaleString()}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 text-right">
-                        <span className="text-2xl font-bold text-green-700">
                           ₱{requestData.amount.toLocaleString()}
                         </span>
                       </td>
