@@ -1,5 +1,6 @@
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { useMemo, useState, useEffect } from 'react'
+import LiquidationForm from '../../components/modal/LiquidationForm'
 
 const ViewFormPage = () => {
   const { id } = useParams()
@@ -7,8 +8,8 @@ const ViewFormPage = () => {
   const location = useLocation()
   const [currentUserRole, setCurrentUserRole] = useState('requester')
   const [requestStatus, setRequestStatus] = useState('')
+  const [showLiquidationForm, setShowLiquidationForm] = useState(false)
 
-  // Get role and status from location state when component mounts
   useEffect(() => {
     if (location.state?.role) {
       setCurrentUserRole(location.state.role)
@@ -131,11 +132,23 @@ const ViewFormPage = () => {
     window.print()
   }
 
-  // Add handleLiquidation function
+  // Updated handleLiquidation function
   const handleLiquidation = () => {
     console.log('Starting liquidation for request:', requestData.id)
-    alert('Starting liquidation process!')
-    // You can add navigation to a liquidation form or modal here
+    setShowLiquidationForm(true)
+  }
+
+  // Handle liquidation form submission
+  const handleLiquidationSubmit = (liquidationData) => {
+    console.log('Liquidation submitted for request:', requestData.id, liquidationData)
+    alert('Liquidation submitted successfully!')
+    // You can add API call here to submit the liquidation data
+    setShowLiquidationForm(false)
+  }
+
+  // Handle liquidation form close
+  const handleLiquidationClose = () => {
+    setShowLiquidationForm(false)
   }
 
   const formatDate = (dateString) => {
@@ -149,16 +162,14 @@ const ViewFormPage = () => {
   }
 
   const renderActionButtons = () => {
-    // Check if request is eligible for liquidation - ONLY when status is "Completed"
-    // Use requestStatus from location state
     const isEligibleForLiquidation = requestStatus === 'Completed'
 
     return (
       <div className="flex flex-wrap gap-2">
-        {/* Print Button - Common for all roles */}
+        {/* Print Button */}
         <button
           onClick={handlePrint}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium flex items-center gap-2"
+          className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition text-sm font-medium flex items-center gap-2 cursor-pointer"
         >
           <svg
             className="w-4 h-4"
@@ -182,7 +193,7 @@ const ViewFormPage = () => {
           <>
             <button
               onClick={handleApprove}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium flex items-center gap-2"
+              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium flex items-center gap-2 cursor-pointer"
             >
               <svg
                 className="w-4 h-4"
@@ -202,7 +213,7 @@ const ViewFormPage = () => {
             </button>
             <button
               onClick={handleReject}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm font-medium flex items-center gap-2"
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition text-sm font-medium flex items-center gap-2 cursor-pointer"
             >
               <svg
                 className="w-4 h-4"
@@ -226,7 +237,7 @@ const ViewFormPage = () => {
         {currentUserRole === 'custodian' && (
           <button
             onClick={handleVerify}
-            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm font-medium flex items-center gap-2"
+            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition text-sm font-medium flex items-center gap-2 cursor-pointer"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -243,7 +254,7 @@ const ViewFormPage = () => {
         {currentUserRole === 'finance' && (
           <button
             onClick={handleComplete}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium flex items-center gap-2"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium flex items-center gap-2 cursor-pointer"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -257,11 +268,11 @@ const ViewFormPage = () => {
           </button>
         )}
 
-        {/* Liquidation button for requester - ONLY when status is "Completed" */}
+        {/* Liquidation button */}
         {currentUserRole === 'requester' && isEligibleForLiquidation && (
           <button
             onClick={handleLiquidation}
-            className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition text-sm font-medium flex items-center gap-2"
+            className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition text-sm font-medium flex items-center gap-2 cursor-pointer"
           >
             <svg
               className="w-4 h-4"
@@ -282,7 +293,7 @@ const ViewFormPage = () => {
         )}
 
         {/* Common actions for all roles */}
-        <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium flex items-center gap-2 border border-slate-400">
+        <button className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition text-sm font-medium flex items-center gap-2 border border-slate-400 cursor-pointer">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
@@ -295,7 +306,7 @@ const ViewFormPage = () => {
         </button>
 
         {currentUserRole === 'requester' && (
-          <button className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition text-sm font-medium flex items-center gap-2">
+          <button className="px-4 py-2 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition text-sm font-medium flex items-center gap-2 cursor-pointer">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
                 strokeLinecap="round"
@@ -312,155 +323,170 @@ const ViewFormPage = () => {
   }
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex-1 min-h-0 p-3">
-        {/* Main header section */}
-        <div className="bg-component shadow-lg rounded-lg border border-slate-400 mb-3">
-          <div className="px-6 py-4">
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={handleBack}
-                  className="flex items-center text-blue-600 hover:text-blue-800"
-                >
-                  <svg
-                    className="w-5 h-5 mr-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
+    <>
+      <div className="h-full flex flex-col">
+        <div className="flex-1 min-h-0 p-3">
+          {/* Main header section */}
+          <div className="bg-component shadow-lg rounded-lg border border-slate-400 mb-3">
+            <div className="px-6 py-4">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handleBack}
+                    className="flex items-center text-blue-600 hover:text-blue-800 cursor-pointer"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                    />
-                  </svg>
-                  <span className="text-sm">Back</span>
-                </button>
+                    <svg
+                      className="w-5 h-5 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                      />
+                    </svg>
+                    <span className="text-sm">Back</span>
+                  </button>
+                  <div>
+                    <h1 className="text-2xl font-bold text-gray-800">Request Details</h1>
+                    <p className="text-gray-600">Reference: {requestData.referenceId}</p>
+                  </div>
+                </div>
+                <div>{renderActionButtons()}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Requester Details */}
+          <div className="bg-component shadow-lg rounded-lg border border-slate-400 mb-3">
+            <div className="px-6 py-4">
+              <h2 className="text-lg font-bold text-gray-800 mb-4">Requester Details</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-800">Request Details</h1>
-                  <p className="text-gray-600">Reference: {requestData.referenceId}</p>
+                  <label className="block text-sm font-medium text-gray-500">Employee</label>
+                  <p className="mt-1  font-medium">{requestData.employee}</p>
                 </div>
-              </div>
-              <div>{renderActionButtons()}</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Requester Details */}
-        <div className="bg-component shadow-lg rounded-lg border border-slate-400 mb-3">
-          <div className="px-6 py-4">
-            <h2 className="text-lg font-bold text-gray-800 mb-4">Requester Details</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-500">Employee</label>
-                <p className="mt-1  font-medium">{requestData.employee}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">Department</label>
-                <p className="mt-1  font-medium">{requestData.department}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">Position</label>
-                <p className="mt-1  font-medium">{requestData.position}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-500">Team Lead</label>
-                <p className="mt-1  font-medium">{requestData.teamLead}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-          {/* Request Details */}
-          <div className="lg:col-span-2">
-            <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-6 h-full">
-              <h2 className="text-lg font-bold text-gray-800 mb-6 pb-3 border-b border-slate-200">
-                Request Details
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500">Reference ID</label>
-                    <p className="mt-1  font-medium font-mono">{requestData.referenceId}</p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500">Request Date</label>
-                    <p className="mt-1  font-medium">{formatDate(requestData.requestDate)}</p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500">Particulars</label>
-                    <p className="mt-1  font-medium">{requestData.particulars}</p>
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-500">Department</label>
+                  <p className="mt-1  font-medium">{requestData.department}</p>
                 </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500">Amount</label>
-                    <p className="mt-1 text-sm font-bold">₱{requestData.amount.toLocaleString()}</p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500">
-                      Amount in Words
-                    </label>
-                    <p className="mt-1  italic">{requestData.amountInWords}</p>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-500">Notes</label>
-                    <p className="mt-1 ">{requestData.notes}</p>
-                  </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-500">Position</label>
+                  <p className="mt-1  font-medium">{requestData.position}</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-500">Team Lead</label>
+                  <p className="mt-1  font-medium">{requestData.teamLead}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Amount Summary */}
-          <div>
-            <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-6 h-full">
-              <h2 className="text-lg font-bold text-gray-800 mb-6 pb-3 border-b border-slate-200">
-                Amount Summary
-              </h2>
+          {/* Main Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+            {/* Request Details */}
+            <div className="lg:col-span-2">
+              <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-6 h-full">
+                <h2 className="text-lg font-bold text-gray-800 mb-6 pb-3 border-b border-slate-200">
+                  Request Details
+                </h2>
 
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
-                        Amount
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b border-slate-200">
-                      <td className="px-4 py-3 text-right">
-                        <span className="text-lg font-semibold text-gray-800">
-                          ₱{requestData.amount.toLocaleString()}
-                        </span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colSpan="2" className="px-4 py-3 pt-6 border-t border-slate-300">
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm font-medium text-gray-700">Total Amount:</span>
-                          <span className="text-2xl font-bold text-green-700">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-500">
+                        Reference ID
+                      </label>
+                      <p className="mt-1  font-medium font-mono">{requestData.referenceId}</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-500">
+                        Request Date
+                      </label>
+                      <p className="mt-1  font-medium">{formatDate(requestData.requestDate)}</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-500">Particulars</label>
+                      <p className="mt-1  font-medium">{requestData.particulars}</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-500">Amount</label>
+                      <p className="mt-1 text-sm font-bold">
+                        ₱{requestData.amount.toLocaleString()}
+                      </p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-500">
+                        Amount in Words
+                      </label>
+                      <p className="mt-1  italic">{requestData.amountInWords}</p>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-500">Notes</label>
+                      <p className="mt-1 ">{requestData.notes}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Amount Summary */}
+            <div>
+              <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-6 h-full">
+                <h2 className="text-lg font-bold text-gray-800 mb-6 pb-3 border-b border-slate-200">
+                  Amount Summary
+                </h2>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 uppercase tracking-wider">
+                          Amount
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr className="border-b border-slate-200">
+                        <td className="px-4 py-3 text-right">
+                          <span className="text-lg font-semibold text-gray-800">
                             ₱{requestData.amount.toLocaleString()}
                           </span>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colSpan="2" className="px-4 py-3 pt-6 border-t border-slate-300">
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm font-medium text-gray-700">Total Amount:</span>
+                            <span className="text-2xl font-bold text-green-700">
+                              ₱{requestData.amount.toLocaleString()}
+                            </span>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {/* Liquidation Form Modal */}
+      <LiquidationForm
+        isOpen={showLiquidationForm}
+        onClose={handleLiquidationClose}
+        onSubmit={handleLiquidationSubmit}
+      />
+    </>
   )
 }
 

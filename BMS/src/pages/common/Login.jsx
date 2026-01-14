@@ -33,7 +33,7 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-linear-to-br from-red-800 via-rose-100 to-red-600 flex items-center justify-center p-4">
       <div className="bg-white shadow-2xl rounded-xl border border-slate-300 w-full max-w-5xl flex overflow-hidden">
-        {/* Left Side - Banner */}
+        {/* Banner */}
         <div className="hidden lg:flex lg:w-2/5 bg-linear-to-br from-red-700 to-red-900 p-10 flex-col justify-between">
           <div>
             <div className="flex items-center mb-8">

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import PlatformTable from '../../components/PlatformTable'
 import Cards from '../../components/Cards'
 import { cardDataRequester } from '../../data/cardData'
+import CashRequestForm from '../../components/modal/CashRequestForm'
 
 const myRequestColumns = [
   {
@@ -62,7 +63,6 @@ const myRequestColumns = [
     width: '10%',
     align: 'center',
     render: (value) => {
-      // Only Pending, Approved, and Rejected statuses
       const statusConfig = {
         Pending: { color: 'bg-amber-100 text-amber-800', border: 'border-amber-200' },
         Approved: { color: 'bg-green-100 text-green-800', border: 'border-green-200' },
@@ -182,11 +182,23 @@ const MyRequest = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedRows, setSelectedRows] = useState([])
   const [selectAll, setSelectAll] = useState(false)
+  const [showCashRequestForm, setShowCashRequestForm] = useState(false)
 
-  const requestData = useMemo(() => createMyRequestData(50), [])
+  const requestData = useMemo(() => {
+    const data = createMyRequestData(50)
+    return Array.isArray(data) ? data : []
+  }, [])
+
+  // Get unique departments for filter dropdown
+  const uniqueDepartments = useMemo(() => {
+    if (!Array.isArray(requestData)) return []
+    return Array.from(new Set(requestData.map((item) => item.department))).filter(Boolean)
+  }, [requestData])
 
   //   filter
   const filteredAndSortedData = useMemo(() => {
+    if (!Array.isArray(requestData)) return []
+
     let filtered = [...requestData]
 
     if (statusFilter) {
@@ -245,12 +257,23 @@ const MyRequest = () => {
   }
 
   // Actions
-  const handleNewRequest = () => {}
+  const handleNewRequest = () => {
+    setShowCashRequestForm(true)
+  }
+
+  const handleCloseCashRequestForm = () => {
+    setShowCashRequestForm(false)
+  }
+
+  const handleSubmitCashRequest = (formData) => {
+    console.log('New cash request submitted:', formData)
+    alert('Cash request submitted successfully!')
+  }
 
   const handleExportSelected = () => {
     if (selectedRows.length === 0) return
 
-    // Get the selected rows data
+    // selected rows data
     const selectedData = requestData.filter((row) => selectedRows.includes(row.id))
 
     const exportData = selectedData.map((row) => ({
@@ -268,7 +291,12 @@ const MyRequest = () => {
 
   const handleRowClick = (row) => {
     console.log('Row clicked:', row)
-    navigate(`/view-form/${row.id}`)
+    navigate(`/view-form/${row.id}`, {
+      state: {
+        role: 'requester',
+        status: row.status,
+      },
+    })
   }
 
   return (
@@ -305,7 +333,7 @@ const MyRequest = () => {
                 onChange={(e) => setDepartmentFilter(e.target.value)}
               >
                 <option value="">All Departments</option>
-                {Array.from(new Set(requestData.map((item) => item.department))).map((dept) => (
+                {uniqueDepartments.map((dept) => (
                   <option key={dept} value={dept}>
                     {dept}
                   </option>
@@ -332,16 +360,30 @@ const MyRequest = () => {
               <div className="flex gap-2">
                 <button
                   onClick={handleNewRequest}
-                  className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium flex items-center gap-2"
+                  className="px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-sm font-medium flex items-center gap-2 cursor-pointer"
                 >
-                  <span>+ New Request</span>
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 4v16m8-8H4"
+                    />
+                  </svg>
+                  <span>New Request</span>
                 </button>
 
                 {/* Export Selected button */}
                 {selectedRows.length > 0 && (
                   <button
                     onClick={handleExportSelected}
-                    className="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium flex items-center gap-2"
+                    className="px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium flex items-center gap-2 cursor-pointer"
                   >
                     <svg
                       className="w-4 h-4"
@@ -389,6 +431,13 @@ const MyRequest = () => {
           </div>
         </div>
       </div>
+
+      {/* Cash Request Form Modal */}
+      <CashRequestForm
+        isOpen={showCashRequestForm}
+        onClose={handleCloseCashRequestForm}
+        onSubmit={handleSubmitCashRequest}
+      />
     </div>
   )
 }
