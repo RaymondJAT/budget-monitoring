@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom' // Added import
 import PlatformTable from '../../components/PlatformTable'
 import Cards from '../../components/Cards'
 import { cardDataRequester } from '../../data/cardData'
@@ -195,6 +196,7 @@ const createMyLiquidationsData = (count) => {
 }
 
 const MyLiquidations = () => {
+  const navigate = useNavigate() // Added hook
   const [sortKey, setSortKey] = useState('liquidationDate')
   const [sortDirection, setSortDirection] = useState('desc')
   const [departmentFilter, setDepartmentFilter] = useState('')
@@ -225,7 +227,7 @@ const MyLiquidations = () => {
           item.employee.toLowerCase().includes(query) ||
           item.department.toLowerCase().includes(query) ||
           item.particulars.toLowerCase().includes(query) ||
-          item.liquidationType.toLowerCase().includes(query)
+          item.liquidationType.toLowerCase().includes(query),
       )
     }
 
@@ -263,6 +265,18 @@ const MyLiquidations = () => {
   const handleSelectAll = (isSelected, allIds) => {
     setSelectAll(isSelected)
     setSelectedRows(isSelected ? allIds : [])
+  }
+
+  // Added handleRowClick function
+  const handleRowClick = (row) => {
+    console.log('Liquidation row clicked:', row)
+    navigate(`/view-liquidation/${row.id}`, {
+      state: {
+        role: 'requester',
+        status: row.status,
+        liquidationData: row, // Pass the entire row data
+      },
+    })
   }
 
   //   export
@@ -323,7 +337,7 @@ const MyLiquidations = () => {
           row['Approval Status'],
           row['Deadline Date'],
           `"${row['Notes']}"`,
-        ].join(',')
+        ].join(','),
       ),
     ].join('\n')
 
@@ -366,7 +380,7 @@ const MyLiquidations = () => {
                     <option key={dept} value={dept}>
                       {dept}
                     </option>
-                  )
+                  ),
                 )}
               </select>
               <select
@@ -380,7 +394,7 @@ const MyLiquidations = () => {
                     <option key={type} value={type}>
                       {type}
                     </option>
-                  )
+                  ),
                 )}
               </select>
             </div>
@@ -444,6 +458,7 @@ const MyLiquidations = () => {
               onSelectionChange={handleSelectionChange}
               selectAll={selectAll}
               onSelectAll={handleSelectAll}
+              onRowClick={handleRowClick} // Added prop
               onDownload={(row) => console.log('Download liquidation documents:', row)}
               actionButtonProps={{
                 downloadLabel: 'Download Documents',

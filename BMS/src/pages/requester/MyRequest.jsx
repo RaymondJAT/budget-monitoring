@@ -216,7 +216,7 @@ const MyRequest = () => {
           item.referenceId.toString().includes(query) ||
           item.employee.toLowerCase().includes(query) ||
           item.department.toLowerCase().includes(query) ||
-          item.particulars.toLowerCase().includes(query)
+          item.particulars.toLowerCase().includes(query),
       )
     }
 

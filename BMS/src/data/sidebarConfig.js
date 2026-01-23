@@ -85,5 +85,5 @@ export const sidebarOptions = [
       { label: 'Rejected Liquidations', path: '/reject-liquidations' },
     ],
   },
-  { type: 'single', title: 'Reporting', Icon: BiPieChartAlt2, path: '/reporting' },
+  { type: 'single', title: 'Reporting', Icon: BiPieChartAlt2, path: '/calendar' },
 ]

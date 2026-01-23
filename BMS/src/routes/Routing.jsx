@@ -44,6 +44,8 @@ import Particulars from '../pages/admin/Particulars'
 
 // common
 import ViewFormPage from '../pages/common/ViewformPage'
+import ViewLiquidation from '../pages/common/ViewLiquidation'
+import Calendar from '../components/Calendar'
 
 const Routing = ({ sortKey, setSortKey, sortDirection, setSortDirection, handleSort }) => {
   return (
@@ -92,6 +94,8 @@ const Routing = ({ sortKey, setSortKey, sortDirection, setSortDirection, handleS
       <Route path="/finance-complete" element={<FinanceComplete />} />
       <Route path="/finance-approval" element={<FinanceApproval />} />
       <Route path="/view-form/:id" element={<ViewFormPage />} />
+      <Route path="/view-liquidation/:id" element={<ViewLiquidation />} />
+      <Route path="/calendar" element={<Calendar />} />
     </Routes>
   )
 }

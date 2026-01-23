@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import PlatformTable from '../../components/PlatformTable'
 import Cards from '../../components/Cards'
 import { cardDataApprover } from '../../data/cardData'
@@ -195,6 +196,7 @@ const createReviewLiquidationsData = (count) => {
 }
 
 const ReviewLiquidations = () => {
+  const navigate = useNavigate()
   const [sortKey, setSortKey] = useState('liquidationDate')
   const [sortDirection, setSortDirection] = useState('desc')
   const [departmentFilter, setDepartmentFilter] = useState('')
@@ -226,7 +228,7 @@ const ReviewLiquidations = () => {
           item.department.toLowerCase().includes(query) ||
           item.particulars.toLowerCase().includes(query) ||
           item.liquidationType.toLowerCase().includes(query) ||
-          (item.reviewer && item.reviewer.toLowerCase().includes(query))
+          (item.reviewer && item.reviewer.toLowerCase().includes(query)),
       )
     }
 
@@ -264,6 +266,18 @@ const ReviewLiquidations = () => {
   const handleSelectAll = (isSelected, allIds) => {
     setSelectAll(isSelected)
     setSelectedRows(isSelected ? allIds : [])
+  }
+
+  // Added handleRowClick function for review
+  const handleRowClick = (row) => {
+    console.log('Review liquidation row clicked:', row)
+    navigate(`/view-liquidation/${row.id}`, {
+      state: {
+        role: 'teamLeader',
+        status: row.status,
+        liquidationData: row,
+      },
+    })
   }
 
   //   export
@@ -329,7 +343,7 @@ const ReviewLiquidations = () => {
           row['Review Deadline'],
           row['Document Status'],
           `"${row['Notes']}"`,
-        ].join(',')
+        ].join(','),
       ),
     ].join('\n')
 
@@ -339,7 +353,7 @@ const ReviewLiquidations = () => {
     link.setAttribute('href', url)
     link.setAttribute(
       'download',
-      `review-liquidations-${new Date().toISOString().split('T')[0]}.csv`
+      `review-liquidations-${new Date().toISOString().split('T')[0]}.csv`,
     )
     link.style.visibility = 'hidden'
     document.body.appendChild(link)
@@ -447,6 +461,7 @@ const ReviewLiquidations = () => {
               onSelectionChange={handleSelectionChange}
               selectAll={selectAll}
               onSelectAll={handleSelectAll}
+              onRowClick={handleRowClick} // Added row click handler
               onDownload={(row) => console.log('Download review documents:', row)}
               actionButtonProps={{
                 downloadLabel: 'Download Documents',
