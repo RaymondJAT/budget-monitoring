@@ -34,6 +34,100 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
     rejected_liquidations: 3,
   }
 
+  // Define columns for Pending Cash Requests
+  const pendingCashRequestColumns = [
+    {
+      label: 'Reference ID',
+      key: 'referenceId',
+      sortable: true,
+    },
+    {
+      label: 'Employee',
+      key: 'employee',
+      sortable: true,
+    },
+    {
+      label: 'Particulars',
+      key: 'particulars',
+      sortable: true,
+    },
+    {
+      label: 'Amount',
+      key: 'amount',
+      sortable: true,
+      cell: (value) => `₱${value.toLocaleString()}`,
+    },
+    {
+      label: 'Status',
+      key: 'status',
+      sortable: true,
+      cell: (value) => (
+        <span
+          className={`px-2 py-1 rounded-full text-xs font-medium ${
+            value === 'Pending'
+              ? 'bg-yellow-100 text-yellow-800'
+              : value === 'Approved'
+                ? 'bg-green-100 text-green-800'
+                : value === 'Rejected'
+                  ? 'bg-red-100 text-red-800'
+                  : 'bg-gray-100 text-gray-800'
+          }`}
+        >
+          {value}
+        </span>
+      ),
+    },
+  ]
+
+  // Mock data for pending cash requests (replace with your actual data)
+  const pendingCashRequestData = useMemo(
+    () => [
+      {
+        id: 1,
+        referenceId: 'CR-2024-001',
+        employee: 'John Doe',
+        particulars: 'Office Supplies Purchase',
+        amount: 15000,
+        status: 'Pending',
+      },
+      {
+        id: 2,
+        referenceId: 'CR-2024-002',
+        employee: 'Jane Smith',
+        particulars: 'Business Travel Expense',
+        amount: 25000,
+        status: 'Pending',
+      },
+      {
+        id: 3,
+        referenceId: 'CR-2024-003',
+        employee: 'Mike Johnson',
+        particulars: 'Equipment Maintenance',
+        amount: 18000,
+        status: 'Pending',
+      },
+      {
+        id: 4,
+        referenceId: 'CR-2024-004',
+        employee: 'Sarah Williams',
+        particulars: 'Conference Registration',
+        amount: 12000,
+        status: 'Pending',
+      },
+      // Add more mock data as needed
+    ],
+    [],
+  )
+
+  // Sort pending cash requests data
+  const sortedPendingCashRequests = useMemo(() => {
+    return [...pendingCashRequestData].sort((a, b) => {
+      if (a[sortKey] < b[sortKey]) return sortDirection === 'asc' ? -1 : 1
+      if (a[sortKey] > b[sortKey]) return sortDirection === 'asc' ? 1 : -1
+      return 0
+    })
+  }, [pendingCashRequestData, sortKey, sortDirection])
+
   return (
     <div className="pt-6 p-3 space-y-3">
       {/* Dashboard Cards */}
@@ -94,8 +188,8 @@ const Dashboard = ({ sortKey, sortDirection, handleSort }) => {
           {/* Pending Cash Requests */}
           <div className="bg-component shadow-lg rounded-lg border border-slate-400 p-4">
             <PlatformTable
-              columns={budgetColumns}
-              data={sortedBudgets}
+              columns={pendingCashRequestColumns}
+              data={sortedPendingCashRequests}
               sortKey={sortKey}
               sortDirection={sortDirection}
               onSort={handleSort}

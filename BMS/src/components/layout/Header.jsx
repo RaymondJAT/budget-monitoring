@@ -1,5 +1,5 @@
 import { FiBell, FiChevronDown, FiCalendar, FiChevronLeft, FiChevronRight } from 'react-icons/fi'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { notifications } from '../../data/notifications'
 
@@ -9,6 +9,39 @@ const Header = () => {
   const [showUserMenu, setShowUserMenu] = useState(false)
   const [currentDate, setCurrentDate] = useState(new Date())
   const [currentMonth, setCurrentMonth] = useState(new Date())
+  const calendarRef = useRef(null)
+  const notificationsRef = useRef(null)
+  const userMenuRef = useRef(null)
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        calendarRef.current &&
+        !calendarRef.current.contains(event.target) &&
+        !event.target.closest('button[aria-label="Calendar"]')
+      ) {
+        setShowCalendar(false)
+      }
+      if (
+        notificationsRef.current &&
+        !notificationsRef.current.contains(event.target) &&
+        !event.target.closest('button[aria-label="Notifications"]')
+      ) {
+        setShowNotifications(false)
+      }
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target) &&
+        !event.target.closest('button[aria-label="User menu"]')
+      ) {
+        setShowUserMenu(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   // Get current date string
   const currentDateString = currentDate.toLocaleDateString('en-US', {
@@ -119,8 +152,10 @@ const Header = () => {
               onClick={() => {
                 setShowCalendar(!showCalendar)
                 setShowNotifications(false)
+                setShowUserMenu(false)
               }}
               className="relative p-2 hover:bg-rose-100 rounded-lg transition-colors cursor-pointer"
+              aria-label="Calendar"
             >
               <FiCalendar size={20} />
             </button>
@@ -128,10 +163,18 @@ const Header = () => {
             <AnimatePresence>
               {showCalendar && (
                 <motion.div
+                  ref={calendarRef}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border z-50"
+                  style={{
+                    position: 'fixed', // Changed from absolute to fixed
+                    top: '60px', // Position below header
+                    right: '20px', // Keep it on the right but with some margin
+                    maxHeight: 'calc(100vh - 100px)', // Limit height to viewport
+                    overflowY: 'auto', // Make it scrollable if too tall
+                  }}
                 >
                   <div className="p-4 border-b">
                     <div className="flex justify-between items-center mb-3">
@@ -176,7 +219,7 @@ const Header = () => {
                           (event) =>
                             event.date.getDate() === day.date.getDate() &&
                             event.date.getMonth() === day.date.getMonth() &&
-                            event.date.getFullYear() === day.date.getFullYear()
+                            event.date.getFullYear() === day.date.getFullYear(),
                         )
 
                         return (
@@ -210,8 +253,10 @@ const Header = () => {
               onClick={() => {
                 setShowNotifications(!showNotifications)
                 setShowCalendar(false)
+                setShowUserMenu(false)
               }}
               className="relative p-2 hover:bg-rose-100 rounded-lg transition-colors cursor-pointer"
+              aria-label="Notifications"
             >
               <FiBell size={20} />
               <span className="absolute -top-1 -right-1 w-5 h-5 bg-rose-600 text-white text-xs rounded-full flex items-center justify-center">
@@ -222,10 +267,18 @@ const Header = () => {
             <AnimatePresence>
               {showNotifications && (
                 <motion.div
+                  ref={notificationsRef}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   className="absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border z-50"
+                  style={{
+                    position: 'fixed', // Changed from absolute to fixed
+                    top: '60px', // Position below header
+                    right: '20px', // Keep it on the right but with some margin
+                    maxHeight: 'calc(100vh - 100px)', // Limit height to viewport
+                    overflowY: 'auto', // Make it scrollable if too tall
+                  }}
                 >
                   <div className="p-4 border-b">
                     <h3 className="font-semibold">Notifications</h3>
@@ -255,6 +308,7 @@ const Header = () => {
                 setShowNotifications(false)
               }}
               className="flex items-center space-x-3 p-2 hover:bg-rose-100 rounded-lg transition-colors cursor-pointer"
+              aria-label="User menu"
             >
               <div className="w-8 h-8 rounded-full bg-linear-to-r from-rose-500 to-pink-500"></div>
               <div className="text-left">
@@ -267,10 +321,16 @@ const Header = () => {
             <AnimatePresence>
               {showUserMenu && (
                 <motion.div
+                  ref={userMenuRef}
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
                   className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border z-50"
+                  style={{
+                    position: 'fixed', // Changed from absolute to fixed
+                    top: '60px', // Position below header
+                    right: '20px', // Keep it on the right but with some margin
+                  }}
                 >
                   <div className="p-4 border-b">
                     <p className="font-semibold">John Doe</p>
