@@ -53,7 +53,6 @@ const Cards = ({ cardData }) => {
               title={card.title}
               count={card.count}
               total={card.total}
-              href={card.href}
               Icon={card.Icon}
               color={card.color}
               isCurrency={card.isCurrency}
@@ -65,27 +64,12 @@ const Cards = ({ cardData }) => {
   )
 }
 
-const Card = ({ title, count, total, Icon, href, color, isCurrency }) => {
+const Card = ({ title, count, Icon, color, isCurrency }) => {
   const colorClasses = {
     rose: {
       bg: 'from-rose-600 to-amber-600',
       icon: 'text-rose-800 group-hover:text-white',
       bgIcon: 'text-rose-100 group-hover:text-rose-800',
-    },
-    emerald: {
-      bg: 'from-emerald-600 to-green-600',
-      icon: 'text-emerald-800 group-hover:text-white',
-      bgIcon: 'text-emerald-100 group-hover:text-emerald-800',
-    },
-    blue: {
-      bg: 'from-blue-600 to-cyan-600',
-      icon: 'text-blue-800 group-hover:text-white',
-      bgIcon: 'text-blue-100 group-hover:text-blue-800',
-    },
-    indigo: {
-      bg: 'from-indigo-600 to-purple-600',
-      icon: 'text-indigo-800 group-hover:text-white',
-      bgIcon: 'text-indigo-100 group-hover:text-indigo-800',
     },
   }
 
@@ -100,10 +84,7 @@ const Card = ({ title, count, total, Icon, href, color, isCurrency }) => {
   }
 
   return (
-    <a
-      href={href}
-      className="w-full h-full p-4 rounded-lg border border-slate-400 relative overflow-hidden group bg-component shadow-xl transition-shadow duration-300 flex flex-col"
-    >
+    <div className="w-full h-full p-4 rounded-lg border border-slate-400 relative overflow-hidden group bg-component shadow-xl transition-shadow duration-300 flex flex-col">
       <div
         className={`absolute inset-0 bg-linear-to-r ${colors.bg} translate-y-full group-hover:translate-y-[0%] transition-transform duration-300`}
       />
@@ -134,7 +115,7 @@ const Card = ({ title, count, total, Icon, href, color, isCurrency }) => {
           </p>
         </div>
       </div>
-    </a>
+    </div>
   )
 }
 
